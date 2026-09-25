@@ -1,0 +1,21 @@
+# runtime
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# secrets
+.env
+
+# личные файлы, не часть проекта
+Новая папка/
+
+# ide
+.idea/
+.vscode/

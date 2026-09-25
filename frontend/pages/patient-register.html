@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Регистрация в кабинете пациента — NDST</title>
+<meta name="description" content="Регистрация в личном кабинете NDST для родителей.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/styles/base.css">
+<link rel="stylesheet" href="/styles/auth.css">
+</head>
+<body data-auth-url="/api/patient/register" data-auth-home="/patient">
+
+<main class="auth">
+  <div class="auth__glow" aria-hidden="true"></div>
+
+  <div class="auth__card">
+    <a class="logo auth__logo" href="/" aria-label="NDST — на главную">
+      <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+    </a>
+
+    <h1 class="auth__title">Регистрация родителя</h1>
+    <p class="auth__lead">Нужна только почта и пароль. Имя ребёнка вы добавите уже
+       в кабинете — в анкету оно не попадает и врачу не передаётся.</p>
+
+    <form id="loginForm" class="auth__form" novalidate>
+      <div class="field">
+        <label for="name">Как к вам обращаться</label>
+        <input class="input" type="text" id="name" name="name" maxlength="80"
+               autocomplete="name" placeholder="Имя или имя и фамилия" required>
+      </div>
+
+      <div class="field">
+        <label for="email">Почта</label>
+        <input class="input" type="email" id="email" name="email"
+               autocomplete="username" placeholder="you@example.com" required>
+      </div>
+
+      <div class="field">
+        <label for="password">Пароль</label>
+        <input class="input" type="password" id="password" name="password"
+               autocomplete="new-password" placeholder="Не менее 8 символов" required>
+      </div>
+
+      <p class="auth__error" id="loginError" hidden></p>
+
+      <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginBtn">
+        Создать кабинет <i data-icon="arrow-right"></i>
+      </button>
+    </form>
+
+    <p class="auth__alt">Уже регистрировались?
+      <a href="/patient/login">Войти</a></p>
+
+    <a class="auth__back" href="/"><i data-icon="arrow-left"></i> На главную</a>
+  </div>
+</main>
+
+<script src="/scripts/i18n.js"></script>
+<script src="/scripts/icons.js"></script>
+<script src="/scripts/auth.js"></script>
+</body>
+</html>

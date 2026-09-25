@@ -1,0 +1,109 @@
+/* ==========================================================================
+   NDST — вход в кабинет врача
+   ========================================================================== */
+
+.auth {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+  overflow: hidden;
+}
+
+.auth__glow {
+  position: absolute;
+  top: -220px; left: 50%;
+  transform: translateX(-50%);
+  width: 900px; height: 620px;
+  background: radial-gradient(ellipse, rgba(25, 211, 230, 0.14) 0%, rgba(25, 211, 230, 0) 65%);
+  pointer-events: none;
+}
+
+.auth__card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 36px;
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow), var(--glow);
+}
+
+.auth__logo { margin-bottom: 28px; }
+
+.auth__title {
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  font-weight: 700;
+}
+
+.auth__lead {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-3);
+}
+
+.auth__form { display: grid; gap: 18px; margin-top: 28px; }
+
+.auth__error {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: -4px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.30);
+  color: #FCA5A5;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Переход между входом и регистрацией */
+.auth__alt {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--text-3);
+  text-align: center;
+}
+.auth__alt a { color: var(--primary); font-weight: 500; }
+.auth__alt a:hover { color: var(--primary-light); }
+
+.auth__demo {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 24px;
+  padding: 14px;
+  border-radius: var(--r-md);
+  background: rgba(25, 211, 230, 0.06);
+  border: 1px solid rgba(25, 211, 230, 0.20);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-3);
+}
+.auth__demo .icon { width: 16px; height: 16px; color: var(--primary); flex: none; margin-top: 1px; }
+.auth__demo b { color: var(--text-2); font-weight: 600; }
+
+.auth__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-3);
+}
+.auth__back:hover { color: var(--text-2); }
+.auth__back .icon { width: 15px; height: 15px; }
+
+.auth__lang { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--border); }
+
+
+@media (max-width: 480px) {
+  .auth__card { padding: 26px 20px; }
+  .auth__title { font-size: 22px; }
+}

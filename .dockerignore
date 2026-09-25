@@ -1,0 +1,15 @@
+data/
+Новая папка/
+tests/
+__pycache__/
+*.py[cod]
+*.db
+*.db-wal
+*.db-shm
+*.log
+.venv/
+venv/
+.env
+.idea/
+.vscode/
+share.py

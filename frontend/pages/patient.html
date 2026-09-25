@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кабинет пациента — NDST</title>
+<meta name="description" content="Личный кабинет NDST: история оценок риска ребёнка, динамика и рекомендации.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/styles/base.css">
+<link rel="stylesheet" href="/styles/cabinet.css">
+<link rel="stylesheet" href="/styles/patient.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- затемнение под выдвижной панелью, только телефон -->
+  <div class="side-scrim" id="sideScrim" hidden></div>
+
+  <!-- ============================ ПАНЕЛЬ ============================ -->
+  <aside class="side" id="sideNav">
+    <a class="side__logo" href="/">
+      <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+    </a>
+
+    <div class="side__label">Кабинет</div>
+    <nav class="side__nav">
+      <a class="side__link is-active" href="/patient" data-view="overview">
+        <i data-icon="layout-dashboard"></i> Сводка
+      </a>
+      <a class="side__link" href="/patient/history" data-view="history">
+        <i data-icon="clipboard-list"></i> История <span class="count" id="cntHistory">—</span>
+      </a>
+      <a class="side__link" href="/patient/children" data-view="children">
+        <i data-icon="users"></i> Дети <span class="count" id="cntChildren">—</span>
+      </a>
+      <a class="side__link" href="/patient/recommendations" data-view="recommendations">
+        <i data-icon="list-checks"></i> Рекомендации
+      </a>
+    </nav>
+
+    <div class="side__label">Действия</div>
+    <nav class="side__nav">
+      <a class="side__link" href="/assessment">
+        <i data-icon="plus"></i> Пройти анкету
+      </a>
+    </nav>
+
+    <div class="side__spacer"></div>
+
+    <div class="side__user">
+      <div class="side__avatar" id="meInitials">—</div>
+      <div>
+        <div class="side__user-name" id="meName">—</div>
+        <div class="side__user-role" id="meRole">Родитель</div>
+      </div>
+    </div>
+
+    <!-- на телефоне панель заменяет собой шапку, поэтому язык и выход здесь -->
+    <div class="side__mobile">
+      <div data-lang-mount></div>
+      <button class="btn btn-secondary btn-block" type="button" id="logoutBtnMobile">
+        <i data-icon="log-out"></i> Выйти
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================= ГЛАВНОЕ ========================== -->
+  <div class="main">
+
+    <div class="topbar">
+      <button class="burger topbar__burger" id="sideToggle" type="button"
+              aria-label="Разделы" aria-expanded="false" aria-controls="sideNav">
+        <i data-icon="menu"></i>
+      </button>
+
+      <a class="logo topbar__logo" href="/patient" aria-label="NDST">
+        <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+      </a>
+
+      <div class="child-pick">
+        <i data-icon="users"></i>
+        <select id="childPick" aria-label="Выбрать ребёнка">
+          <option value="all">Все дети</option>
+        </select>
+      </div>
+
+      <div class="topbar__actions">
+        <a class="btn btn-primary btn-sm" href="/assessment">
+          <i data-icon="plus"></i> Пройти анкету
+        </a>
+        <button class="btn btn-secondary btn-sm" type="button" id="logoutBtn">
+          <i data-icon="log-out"></i> Выйти
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="demo-note">
+        <i data-icon="info"></i>
+        <span id="dataNote">Кабинет показывает только ваши оценки. Врач видит их без имени
+        ребёнка — имя хранится здесь и никуда не передаётся.</span>
+      </div>
+
+      <!-- ========================= СВОДКА ========================== -->
+      <section class="view is-current" data-view="overview">
+        <div class="page-head">
+          <div>
+            <h1>Сводка</h1>
+            <p id="overviewSub">Последняя оценка и динамика</p>
+          </div>
+        </div>
+
+        <div class="tiles">
+          <div class="tile">
+            <div class="tile__head">
+              <span class="tile__label">Последняя оценка</span>
+              <span class="tile__icon"><i data-icon="activity"></i></span>
+            </div>
+            <div class="tile__value" id="lastScore">—</div>
+            <div class="tile__delta"><span id="lastLevel">—</span></div>
+          </div>
+
+          <div class="tile">
+            <div class="tile__head">
+              <span class="tile__label">Изменение</span>
+              <span class="tile__icon"><i data-icon="trending-up"></i></span>
+            </div>
+            <div class="tile__value" id="deltaValue">—</div>
+            <div class="tile__delta"><span id="deltaNote">по сравнению с прошлой анкетой</span></div>
+          </div>
+
+          <div class="tile">
+            <div class="tile__head">
+              <span class="tile__label">Всего оценок</span>
+              <span class="tile__icon"><i data-icon="clipboard-list"></i></span>
+            </div>
+            <div class="tile__value" id="totalValue">—</div>
+            <div class="tile__delta"><span id="totalNote">в кабинете</span></div>
+          </div>
+
+          <div class="tile tile--cyan">
+            <div class="tile__head">
+              <span class="tile__label">Отметка врача</span>
+              <span class="tile__icon"><i data-icon="bell"></i></span>
+            </div>
+            <div class="tile__value" id="followValue">—</div>
+            <div class="tile__delta"><span id="followNote">оценок на повторном контроле</span></div>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Динамика риска</h2>
+                <p id="trendSub">Балл по каждой пройденной анкете</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <svg id="trendChart" viewBox="0 0 660 280" style="width:100%;height:auto"
+                   role="img" aria-label="График изменения балла риска по датам анкет"></svg>
+              <div class="trend-legend" id="trendLegend"></div>
+              <p class="small text-3 mt-4" id="trendEmpty" hidden>
+                Пока нет ни одной оценки — пройдите анкету, и здесь появится динамика.
+              </p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Последняя оценка</h2>
+                <p id="lastWhen">—</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="gauge" id="gauge"></div>
+              <div class="factors" id="lastFactors"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Ближайший шаг</h2>
+              <p>Что стоит сделать по итогам последней анкеты</p>
+            </div>
+            <a class="btn btn-ghost btn-sm" href="/patient/recommendations" data-view="recommendations">
+              Все рекомендации <i data-icon="arrow-right"></i>
+            </a>
+          </div>
+          <div class="panel__body">
+            <div id="nextStep" class="next-step"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================== ИСТОРИЯ ========================== -->
+      <section class="view" data-view="history">
+        <div class="page-head">
+          <div>
+            <h1>История</h1>
+            <p id="historySub">—</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Привязать оценку по коду</h2>
+              <p>Если анкету проходили без входа, введите код с экрана результата</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <form class="link-form" id="linkForm" novalidate>
+              <div class="field">
+                <label for="linkCode">Код оценки</label>
+                <input class="input" type="text" id="linkCode" placeholder="Например, 3b51AujIQrbr"
+                       autocomplete="off" spellcheck="false" required>
+              </div>
+              <div class="field">
+                <label for="linkChild">Кому засчитать</label>
+                <select class="input" id="linkChild">
+                  <option value="">Без привязки к ребёнку</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" type="submit" id="linkBtn">
+                <i data-icon="plus"></i> Привязать
+              </button>
+            </form>
+            <p class="auth__error mt-4" id="linkError" hidden></p>
+            <p class="link-ok mt-4" id="linkOk" hidden>
+              <i data-icon="check-circle"></i> <span>Оценка добавлена в кабинет.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Пройденные анкеты</h2>
+              <p>Свежие сверху</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Дата</th><th>Ребёнок</th><th>Возраст</th>
+                  <th>Риск</th><th>Ключевые факторы</th><th>Отметка врача</th>
+                </tr>
+              </thead>
+              <tbody id="historyBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================== ДЕТИ =========================== -->
+      <section class="view" data-view="children">
+        <div class="page-head">
+          <div>
+            <h1>Дети</h1>
+            <p>Профили нужны, чтобы история не смешивалась между детьми</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2 id="childFormTitle">Добавить ребёнка</h2>
+              <p>Имя видно только вам: врачу оценка приходит без него</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <form class="child-form" id="childForm" novalidate>
+              <input type="hidden" id="childId" value="">
+              <div class="field">
+                <label for="childName">Имя</label>
+                <input class="input" type="text" id="childName" maxlength="60"
+                       placeholder="Как зовут ребёнка" required>
+              </div>
+              <div class="field">
+                <label for="childSex">Пол</label>
+                <select class="input" id="childSex">
+                  <option value="">Не указан</option>
+                  <option value="m">Мальчик</option>
+                  <option value="f">Девочка</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="childYear">Год рождения</label>
+                <input class="input" type="number" id="childYear" inputmode="numeric"
+                       placeholder="2016">
+              </div>
+              <div class="child-form__actions">
+                <button class="btn btn-primary" type="submit" id="childSave">
+                  <i data-icon="plus"></i> <span id="childSaveLabel">Добавить</span>
+                </button>
+                <button class="btn btn-secondary" type="button" id="childCancel" hidden>
+                  Отмена
+                </button>
+              </div>
+            </form>
+            <p class="auth__error mt-4" id="childError" hidden></p>
+          </div>
+        </div>
+
+        <div class="kid-grid" id="kidGrid"></div>
+      </section>
+
+      <!-- ====================== РЕКОМЕНДАЦИИ ======================= -->
+      <section class="view" data-view="recommendations">
+        <div class="page-head">
+          <div>
+            <h1>Рекомендации</h1>
+            <p id="recSub">По последней пройденной анкете</p>
+          </div>
+        </div>
+
+        <div class="panel panel--urgent">
+          <div class="panel__body">
+            <div class="urgent">
+              <i data-icon="alert-triangle"></i>
+              <div>
+                <h2>Когда нужна неотложная помощь</h2>
+                <p>Вызывайте скорую, если у ребёнка появились запах ацетона изо рта и частое
+                   глубокое дыхание, многократная рвота с сильной болью в животе или спутанность
+                   сознания и выраженная сонливость. Эти признаки не ждут приёма.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="recBody"></div>
+
+        <div class="disclaimer">
+          <i data-icon="info"></i>
+          <p><strong>Важно:</strong> оценка описывает факторы риска и не является медицинским
+          диагнозом. Решение об обследовании принимает врач после осмотра.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="/scripts/i18n.js"></script>
+<script src="/scripts/icons.js"></script>
+<script src="/scripts/patient.js"></script>
+</body>
+</html>

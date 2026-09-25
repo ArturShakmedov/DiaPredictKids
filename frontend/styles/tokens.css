@@ -1,0 +1,93 @@
+/* ==========================================================================
+   NDST — Design Tokens
+   Единая визуальная система: medical × AI × trust × pediatric
+   ========================================================================== */
+
+:root {
+  /* ---- Surfaces ---------------------------------------------------- */
+  --bg:              #06111F;
+  --bg-2:            #0A1728;
+  --surface:         #0E2033;
+  --surface-elev:    #122A40;
+  --surface-card:    #0B1B2C;
+
+  /* ---- Borders ----------------------------------------------------- */
+  --border:          #193149;
+  --border-hover:    #28506D;
+  --border-strong:   #29445D;
+  --border-input:    #1C3850;
+
+  /* ---- Accent ------------------------------------------------------ */
+  --primary:         #19D3E6;
+  --primary-light:   #67E8F9;
+  --blue:            #3B82F6;
+  --cyan-soft:       #A5F3FC;
+
+  /* ---- Text -------------------------------------------------------- */
+  --text:            #F4F8FC;
+  --text-2:          #A9BACB;
+  --text-3:          #71869A;
+  --text-on-primary: #06111F;
+
+  /* ---- States ------------------------------------------------------ */
+  --success:         #22C55E;
+  --warning:         #F59E0B;
+  --danger:          #EF4444;
+
+  --success-soft:    rgba(34, 197, 94, 0.12);
+  --warning-soft:    rgba(245, 158, 11, 0.12);
+  --danger-soft:     rgba(239, 68, 68, 0.12);
+  --primary-soft:    rgba(25, 211, 230, 0.10);
+
+  /* ---- Radius ------------------------------------------------------ */
+  --r-sm:   10px;
+  --r-md:   12px;
+  --r-lg:   16px;
+  --r-xl:   20px;
+  --r-pill: 999px;
+
+  /* ---- Spacing (кратность 4) --------------------------------------- */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-8:  32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+  --s-30: 120px;
+
+  /* ---- Layout ------------------------------------------------------ */
+  --container:    1280px;
+  --gutter:       80px;
+  --grid-gap:     24px;
+  --header-h:     72px;
+  --section-gap:  96px;
+
+  /* ---- Shadows ----------------------------------------------------- */
+  --shadow:        0 20px 60px rgba(0, 0, 0, 0.25);
+  --shadow-soft:   0 12px 32px rgba(0, 0, 0, 0.20);
+  --glow:          0 0 40px rgba(25, 211, 230, 0.08);
+  --glow-btn:      0 0 24px rgba(25, 211, 230, 0.20);
+
+  /* ---- Motion ------------------------------------------------------ */
+  --t-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-base:   180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-slow:   320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* ---- Type -------------------------------------------------------- */
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (max-width: 1280px) {
+  :root { --gutter: 40px; --section-gap: 80px; }
+}
+
+@media (max-width: 768px) {
+  :root { --gutter: 20px; --section-gap: 64px; --grid-gap: 16px; }
+}

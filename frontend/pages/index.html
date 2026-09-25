@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NDST — раннее выявление риска сахарного диабета у детей</title>
+<meta name="description" content="NDST — платформа для ранней оценки факторов риска сахарного диабета у детей. Структурированный скрининг за несколько минут с понятным объяснением результата.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/styles/base.css">
+<link rel="stylesheet" href="/styles/landing.css">
+</head>
+<body>
+
+<!-- ============================ HEADER ============================ -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a class="logo" href="/" aria-label="NDST — на главную">
+      <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#about">О проекте</a>
+      <a href="#symptoms">Симптомы</a>
+      <a href="#how">Как это работает</a>
+      <a href="#doctors">Для врачей</a>
+    </nav>
+
+    <div class="header__actions">
+      <a class="btn btn-secondary" href="/patient">Кабинет</a>
+      <a class="btn btn-primary" href="/assessment">
+        Оценить риск <i data-icon="arrow-right"></i>
+      </a>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="mobileMenu">
+        <i data-icon="menu"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Мобильная навигация">
+  <div class="mobile-menu__inner">
+
+    <div class="mobile-menu__group">
+      <div class="mobile-menu__label">Разделы</div>
+      <div class="mnav">
+        <a href="#about"><i data-icon="info"></i>О проекте<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="#symptoms"><i data-icon="stethoscope"></i>Симптомы<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="#how"><i data-icon="clipboard-list"></i>Как это работает<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="#doctors"><i data-icon="users"></i>Для врачей<i data-icon="chevron-right" class="chev"></i></a>
+      </div>
+    </div>
+
+    <div class="mobile-menu__group">
+      <div class="mobile-menu__label">Инструменты</div>
+      <div class="mnav">
+        <a href="/assessment"><i data-icon="target"></i>Оценка риска<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="/patient"><i data-icon="users"></i>Кабинет пациента<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="/doctor"><i data-icon="layout-dashboard"></i>Кабинет врача<i data-icon="chevron-right" class="chev"></i></a>
+      </div>
+    </div>
+
+    <div class="mobile-menu__cta">
+      <a class="btn btn-primary btn-block" href="/assessment">
+        Оценить риск <i data-icon="arrow-right"></i>
+      </a>
+      <p class="mobile-menu__note">Занимает около семи минут · без регистрации</p>
+    </div>
+
+  </div>
+</nav>
+
+<main>
+
+<!-- ============================= HERO ============================= -->
+<section class="hero">
+  <div class="hero__grid-lines" aria-hidden="true"></div>
+  <div class="container hero__inner">
+
+    <div class="hero__content">
+      <div class="ai-tag">Скрининговая платформа</div>
+      <h1 class="mt-4 hero__title">
+        <!-- Формулировка темы научной работы. Каждый кусок — отдельный узел:
+             название переводить нельзя, тире вынесено в свой элемент, иначе
+             оно склеилось бы с текстом и сломало ключ словаря, а три части
+             фразы переставляются при переводе (см. i18n.js). -->
+        <span class="hero__brand" translate="no">NDST</span><span class="hero__dash">—</span>
+        <span>Раннее выявление предикторов</span>
+        <span class="accent">сахарного диабета у детей</span>
+        <span>с недифференцированными дисплазиями соединительной ткани</span>
+      </h1>
+      <p class="hero__lead">
+        NDST собирает симптомы и факторы риска ребёнка в единую структурированную оценку
+        и показывает, какие именно признаки повлияли на результат — чтобы вы вовремя
+        обратились к врачу, а не заметили проблему по факту.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn-primary btn-lg" href="/assessment">
+          Оценить риск <i data-icon="arrow-right"></i>
+        </a>
+        <a class="btn btn-secondary btn-lg" href="#how">Как это работает</a>
+      </div>
+
+      <div class="hero__facts">
+        <div class="hero__fact">
+          <div class="metric-sm">~<span>7</span> минут</div>
+          <p>занимает прохождение анкеты</p>
+        </div>
+        <div class="hero__fact">
+          <div class="metric-sm"><span>61</span> признак</div>
+          <p>симптомы, анамнез, питание и соединительная ткань</p>
+        </div>
+        <div class="hero__fact">
+          <div class="metric-sm"><span>Локально</span></div>
+          <p>расчёт в браузере, отправка — только по вашей кнопке</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Визуализация ---- -->
+    <div class="hero__visual">
+      <div class="hero__visual-glow" aria-hidden="true"></div>
+
+      <svg class="viz" viewBox="0 0 560 560" role="img"
+           aria-label="Фотография ребёнка в кадре медицинской схемы: вокруг — сеть измеряемых показателей: рост, ИМТ, симптомы, анамнез">
+        <defs>
+          <!-- Тонировка фотографии под палитру -->
+          <linearGradient id="photoTint" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0"   stop-color="#67E8F9" stop-opacity="0.05"/>
+            <stop offset="0.5" stop-color="#19D3E6" stop-opacity="0.06"/>
+            <stop offset="1"   stop-color="#3B82F6" stop-opacity="0.18"/>
+          </linearGradient>
+          <radialGradient id="vignette" cx="50%" cy="45%" r="52%">
+            <stop offset="0.45" stop-color="#06111F" stop-opacity="0"/>
+            <stop offset="1"    stop-color="#06111F" stop-opacity="0.72"/>
+          </radialGradient>
+
+          <linearGradient id="scanGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0"   stop-color="#67E8F9" stop-opacity="0"/>
+            <stop offset="0.5" stop-color="#67E8F9" stop-opacity="0.75"/>
+            <stop offset="1"   stop-color="#67E8F9" stop-opacity="0"/>
+          </linearGradient>
+
+          <!-- Растровая сетка поверх кадра -->
+          <pattern id="dotGrid" width="7" height="7" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.7" fill="#67E8F9" fill-opacity="0.16"/>
+          </pattern>
+
+          <clipPath id="discClip"><circle cx="280" cy="280" r="124"/></clipPath>
+        </defs>
+
+        <!-- Внешние орбиты -->
+        <g class="ring-slow" opacity="0.5">
+          <circle cx="280" cy="280" r="246" fill="none" stroke="#193149"
+                  stroke-width="1" stroke-dasharray="2 10"/>
+          <circle cx="280" cy="34"  r="3.5" fill="#19D3E6" opacity="0.8"/>
+          <circle cx="526" cy="280" r="2.5" fill="#3B82F6" opacity="0.8"/>
+        </g>
+        <g class="ring-rev" opacity="0.5">
+          <circle cx="280" cy="280" r="208" fill="none" stroke="#1C3850" stroke-width="1"/>
+          <circle cx="280" cy="72"  r="4" fill="#06111F" stroke="#19D3E6" stroke-width="1.4"/>
+          <circle cx="72"  cy="280" r="3" fill="#19D3E6" opacity="0.6"/>
+        </g>
+
+        <g transform="translate(280 280) scale(1.13) translate(-280 -280)">
+
+          <!-- Уголки визира -->
+          <g stroke="#19D3E6" stroke-opacity="0.3" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M138 166V138h28M394 138h28v28M422 394v28h-28M166 422h-28v-28"/>
+          </g>
+
+          <!-- Сеть измеряемых показателей -->
+          <path d="M280 112 L426 196 L426 364 L280 448 L134 364 L134 196 Z"
+                fill="none" stroke="#19D3E6" stroke-opacity="0.2" stroke-width="1"/>
+          <path d="M280 112 V152 M426 196 L392 216 M426 364 L392 344
+                   M280 448 V408 M134 364 L168 344 M134 196 L168 216"
+                fill="none" stroke="#19D3E6" stroke-opacity="0.28"
+                stroke-width="1" stroke-dasharray="3 5"/>
+          <g fill="#06111F" stroke="#19D3E6" stroke-width="1.5">
+            <circle class="node-pulse" cx="280" cy="112" r="6"/>
+            <circle class="node-pulse" cx="426" cy="196" r="5"/>
+            <circle class="node-pulse" cx="426" cy="364" r="5"/>
+            <circle class="node-pulse" cx="280" cy="448" r="5"/>
+            <circle class="node-pulse" cx="134" cy="364" r="5"/>
+            <circle class="node-pulse" cx="134" cy="196" r="5"/>
+          </g>
+
+          <!-- Кадр с фотографией -->
+          <circle cx="280" cy="280" r="124" fill="#0A1728"/>
+
+          <g clip-path="url(#discClip)">
+            <image href="/assets/hero-child.jpg" xlink:href="/assets/hero-child.jpg"
+                   x="150" y="150" width="260" height="260"
+                   preserveAspectRatio="xMidYMid slice"/>
+
+            <!-- тонировка и глубина -->
+            <circle cx="280" cy="280" r="124" fill="url(#photoTint)"/>
+            <circle cx="280" cy="280" r="124" fill="url(#vignette)"/>
+
+            <!-- растр поверх кадра -->
+            <rect x="150" y="150" width="260" height="260" fill="url(#dotGrid)"/>
+
+            <!-- антропометрическая направляющая -->
+            <g stroke="#67E8F9" stroke-opacity="0.35" stroke-width="1" fill="none">
+              <path d="M180 186 V374" stroke-dasharray="4 6"/>
+              <path d="M172 186 h16 M172 374 h16"/>
+            </g>
+            <text x="169" y="280" transform="rotate(-90 169 280)" text-anchor="middle"
+                  font-family="Inter, sans-serif" font-size="8.5" letter-spacing="1.6"
+                  fill="#A9BACB" opacity="0.75">РОСТ · ИМТ</text>
+
+            <!-- линия сканирования -->
+            <rect class="scan" x="156" y="278" width="248" height="2" fill="url(#scanGrad)"/>
+          </g>
+
+          <circle cx="280" cy="280" r="124" fill="none"
+                  stroke="#19D3E6" stroke-opacity="0.35" stroke-width="1.5"/>
+          <circle cx="280" cy="280" r="136" fill="none" stroke="#19D3E6"
+                  stroke-opacity="0.1" stroke-width="1" stroke-dasharray="4 8"/>
+        </g>
+      </svg>
+
+      <!-- Плавающие карточки -->
+      <div class="data-card data-card--1">
+        <span class="data-card__label">Глюкоза</span>
+        <span class="data-card__value is-ok">5.2 <small>ммоль/л</small></span>
+      </div>
+      <div class="data-card data-card--2">
+        <span class="data-card__label">ИМТ</span>
+        <span class="data-card__value is-ok">Норма</span>
+      </div>
+      <div class="data-card data-card--3">
+        <span class="data-card__label">Оценка риска</span>
+        <span class="data-card__value is-cyan">18 %</span>
+      </div>
+
+      <p class="hero__visual-note">Пример интерфейса. Фото: модель, показатели демонстрационные.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================ ABOUT ============================= -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">О проекте</div>
+      <h2>Диабет у детей часто выявляют слишком поздно</h2>
+      <p class="lead">
+        Первые признаки — жажда, частое мочеиспускание, потеря веса, утомляемость — легко
+        принять за переходный возраст, стресс или простуду. NDST помогает родителю
+        собрать эти наблюдения в одну картину и понять, нужен ли визит к врачу сейчас.
+      </p>
+    </div>
+
+    <div class="module reveal">
+      <div class="module__bar">
+        <span class="mono">Принципы системы</span>
+        <span class="mono">04 позиции</span>
+      </div>
+      <div class="cells cells--5">
+
+        <article class="cell">
+          <span class="cell__idx">01</span>
+          <div class="cell__icon"><i data-icon="target"></i></div>
+          <h3 class="h4">Точность</h3>
+          <p class="small">Оценка строится на признанных клинических факторах риска,
+             а не на общих ощущениях.</p>
+          <div class="cell__meta mono">61 признак · веса по значимости</div>
+        </article>
+
+        <article class="cell">
+          <span class="cell__idx">02</span>
+          <div class="cell__icon"><i data-icon="lock"></i></div>
+          <h3 class="h4">Безопасность</h3>
+          <p class="small">Ответы обрабатываются локально. На сервер они попадают,
+             только если вы сами нажмёте «Сохранить».</p>
+          <div class="cell__meta mono">отправка только по кнопке</div>
+        </article>
+
+        <article class="cell">
+          <span class="cell__idx">03</span>
+          <div class="cell__icon"><i data-icon="timer"></i></div>
+          <h3 class="h4">Скорость</h3>
+          <p class="small">Полная анкета занимает около семи минут — пять
+             коротких шагов.</p>
+          <div class="cell__meta mono">5 шагов · ~7 минут</div>
+        </article>
+
+        <article class="cell">
+          <span class="cell__idx">04</span>
+          <div class="cell__icon"><i data-icon="flask"></i></div>
+          <h3 class="h4">Научный подход</h3>
+          <p class="small">Веса факторов опираются на клинические рекомендации
+             по диагностике СД у детей.</p>
+          <div class="cell__meta mono">ИМТ по перцентилям CDC</div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== SYMPTOMS =========================== -->
+<section class="section section--alt section--grid" id="symptoms">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Симптомы</div>
+      <h2>На что обратить внимание у ребёнка</h2>
+      <p class="lead">
+        Классические признаки развиваются постепенно и по отдельности выглядят безобидно.
+        Значение имеет их сочетание и то, что раньше такого не было.
+      </p>
+    </div>
+
+    <div class="module reveal">
+      <div class="module__bar">
+        <span class="mono">Классические признаки</span>
+        <span class="mono">08 позиций · шаг 02 анкеты</span>
+      </div>
+      <div class="cells cells--2">
+
+        <article class="cell cell--row">
+          <span class="cell__idx">01</span>
+          <div class="cell__icon cell__icon--blue"><i data-icon="glass-water"></i></div>
+          <div class="cell__body">
+            <h4>Сильная жажда</h4>
+            <p>Ребёнок пьёт заметно больше обычного, в том числе ночью.</p>
+          </div>
+        </article>
+
+        <article class="cell cell--row">
+          <span class="cell__idx">02</span>
+          <div class="cell__icon cell__icon--blue"><i data-icon="droplets"></i></div>
+          <div class="cell__body">
+            <h4>Частое мочеиспускание</h4>
+            <p>Учащённые походы в туалет, большие объёмы мочи.</p>
+          </div>
+        </article>
+
+        <article class="cell cell--row">
+          <span class="cell__idx">03</span>
+          <div class="cell__icon cell__icon--blue"><i data-icon="moon"></i></div>
+          <div class="cell__body">
+            <h4>Ночное недержание</h4>
+            <p>Появилось снова у ребёнка, который уже давно сухой ночью.</p>
+          </div>
+        </article>
+
+        <article class="cell cell--row">
+          <span class="cell__idx">04</span>
+          <div class="cell__icon cell__icon--blue"><i data-icon="trending-down"></i></div>
+          <div class="cell__body">
+            <h4>Потеря веса</h4>
+            <p>Вес снижается при обычном или даже повышенном аппетите.</p>
+          </div>
+        </article>
+
+        <article class="cell cell--row">
+          <span class="cell__idx">05</span>
+          <div class="cell__icon cell__icon--blue"><i data-icon="battery-low"></i></div>
+          <div class="cell__body">
+            <h4>Утомляемость</h4>
+            <p>Вялость, сонливость, снижение активности и успеваемости.</p>
+          </div>
+        </article>
+
+        <article class="cell cell--row">
+          <span class="cell__idx">06</span>
+          <div class="cell__icon cell__icon--blue"><i data-icon="eye"></i></div>
+          <div class="cell__body">
+            <h4>Нечёткое зрение</h4>
+            <p>Жалобы на «размытость», трудно рассмотреть доску или текст.</p>
+          </div>
+        </article>
+
+        <article class="cell cell--row">
+          <span class="cell__idx">07</span>
+          <div class="cell__icon cell__icon--blue"><i data-icon="bandage"></i></div>
+          <div class="cell__body">
+            <h4>Долгое заживление</h4>
+            <p>Ранки и царапины заживают дольше обычного, повторяются инфекции.</p>
+          </div>
+        </article>
+
+        <article class="cell cell--row">
+          <span class="cell__idx">08</span>
+          <div class="cell__icon cell__icon--blue"><i data-icon="utensils"></i></div>
+          <div class="cell__body">
+            <h4>Изменение аппетита</h4>
+            <p>Постоянное чувство голода или, наоборот, отказ от еды и тошнота.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="alert-panel reveal">
+      <i data-icon="alert-triangle"></i>
+      <div>
+        <h4>Когда нельзя ждать и нужна срочная помощь</h4>
+        <p>Немедленно обратитесь за медицинской помощью, если у ребёнка появились:</p>
+        <ul>
+          <li>частое и глубокое дыхание, запах ацетона изо рта;</li>
+          <li>многократная рвота, боль в животе, выраженная слабость;</li>
+          <li>спутанность сознания, сонливость, которую трудно прервать;</li>
+          <li>признаки обезвоживания на фоне сильной жажды.</li>
+        </ul>
+        <p class="mt-4">Это возможные признаки диабетического кетоацидоза — состояния, требующего неотложной помощи.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= HOW ============================== -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-head section-head--center reveal">
+      <div class="eyebrow">Как это работает</div>
+      <h2>Пять шагов от анкеты до понятного результата</h2>
+    </div>
+
+    <div class="module reveal">
+      <div class="module__bar">
+        <span class="mono">Маршрут оценки</span>
+        <span class="mono mono--accent">~7 минут</span>
+      </div>
+      <div class="rail"><span style="width:100%"></span></div>
+      <div class="cells cells--4">
+
+        <article class="cell">
+          <span class="cell__idx">01</span>
+          <h3 class="h4">О ребёнке</h3>
+          <p class="small">Возраст, пол, рост и вес. Система рассчитывает ИМТ
+             и сравнивает его с возрастной нормой.</p>
+          <div class="cell__meta mono">возраст · пол · рост · вес</div>
+        </article>
+
+        <article class="cell">
+          <span class="cell__idx">02</span>
+          <h3 class="h4">Симптомы</h3>
+          <p class="small">Отмечаете признаки, которые наблюдали в последнее
+             время, и их длительность.</p>
+          <div class="cell__meta mono">12 признаков · длительность</div>
+        </article>
+
+        <article class="cell">
+          <span class="cell__idx">03</span>
+          <h3 class="h4">Факторы риска</h3>
+          <p class="small">Семейный анамнез, течение беременности и родов,
+             образ жизни ребёнка.</p>
+          <div class="cell__meta mono">22 фактора · питание · среда</div>
+        </article>
+
+        <article class="cell">
+          <span class="cell__idx">04</span>
+          <h3 class="h4">Соединительная ткань</h3>
+          <p class="small">Признаки недифференцированной дисплазии оцениваются
+             по шкале ДСТ отдельно от риска диабета.</p>
+          <div class="cell__meta mono">27 признаков · шкала ДСТ</div>
+        </article>
+
+        <article class="cell">
+          <span class="cell__idx">05</span>
+          <h3 class="h4">Результат</h3>
+          <p class="small">Риск диабета в процентах, степень ДСТ, перечень
+             повлиявших факторов и рекомендации по действиям.</p>
+          <div class="cell__meta mono">риск 0–100 · степень ДСТ</div>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="disclaimer mt-12 reveal">
+      <i data-icon="info"></i>
+      <p><strong>Важно:</strong> результат является оценкой факторов риска и не является медицинским
+      диагнозом. Для постановки диагноза необходимо обратиться к врачу.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== SHOWCASE =========================== -->
+<section class="section section--alt">
+  <div class="container showcase">
+    <div class="reveal">
+      <div class="eyebrow">Прозрачность оценки</div>
+      <h2>Вы видите не только цифру, но и её причину</h2>
+      <p class="lead mt-4">
+        Голый процент ничего не объясняет и только пугает. NDST показывает, какие
+        именно ответы повысили оценку, а какие настораживающие признаки отсутствуют.
+      </p>
+
+      <div class="showcase__list">
+        <div class="showcase__item">
+          <i data-icon="check-circle"></i>
+          <div>
+            <h4>Разбор по факторам</h4>
+            <p>Каждый учтённый признак — с его вкладом в итоговую оценку.</p>
+          </div>
+        </div>
+        <div class="showcase__item">
+          <i data-icon="minus-circle"></i>
+          <div>
+            <h4>Что не обнаружено</h4>
+            <p>Отсутствующие тревожные признаки перечисляются отдельно — это тоже информация.</p>
+          </div>
+        </div>
+        <div class="showcase__item">
+          <i data-icon="file-text"></i>
+          <div>
+            <h4>Сводка для врача</h4>
+            <p>Результат можно распечатать или сохранить и взять с собой на приём.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-mock reveal">
+      <div class="result-mock__head">
+        <span class="result-mock__title">Результат оценки</span>
+        <span class="ai-tag">Анализ завершён</span>
+      </div>
+
+      <div class="result-mock__body">
+        <svg class="result-mock__gauge" viewBox="0 0 120 120" role="img" aria-label="Оценка риска 68 процентов">
+          <defs>
+            <linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F59E0B"/><stop offset="1" stop-color="#19D3E6"/>
+            </linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#193149" stroke-width="10"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="url(#gaugeGrad)" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="100"
+                  transform="rotate(-90 60 60)"/>
+          <text x="60" y="58" text-anchor="middle" fill="#F4F8FC"
+                font-family="Inter, sans-serif" font-size="26" font-weight="700"
+                letter-spacing="-1">68%</text>
+          <text x="60" y="76" text-anchor="middle" fill="#71869A"
+                font-family="Inter, sans-serif" font-size="9" letter-spacing="1">RISK ANALYSIS</text>
+        </svg>
+
+        <div class="result-mock__info">
+          <span class="badge badge--mod"><span class="dot"></span>Умеренный риск</span>
+          <h3 class="mt-4">Рекомендована консультация педиатра</h3>
+          <p class="small text-3 mt-4">Обратитесь к врачу в ближайшие дни и обсудите обследование.</p>
+        </div>
+      </div>
+
+      <div class="result-mock__factors">
+        <div class="factor-line factor-line--yes"><i data-icon="check"></i> Повышенная жажда <span class="factor-line__w">+18</span></div>
+        <div class="factor-line factor-line--yes"><i data-icon="check"></i> Частое мочеиспускание <span class="factor-line__w">+16</span></div>
+        <div class="factor-line factor-line--yes"><i data-icon="check"></i> Семейный анамнез <span class="factor-line__w">+12</span></div>
+        <div class="factor-line factor-line--no"><i data-icon="minus-circle"></i> Потеря веса не отмечена <span class="factor-line__w">0</span></div>
+      </div>
+
+      <p class="caption text-3 mt-4">Пример интерфейса. Данные демонстрационные.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ STATS ============================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Контекст задачи</div>
+      <h2>Почему ранний скрининг важен</h2>
+    </div>
+
+    <div class="context-grid">
+      <div class="stat-grid reveal">
+        <div class="stat">
+          <div class="stat__value cyan">1,5 млн+</div>
+          <div class="stat__label">детей и подростков в мире живут с сахарным диабетом 1 типа</div>
+          <div class="stat__note">По данным IDF Diabetes Atlas</div>
+        </div>
+        <div class="stat">
+          <div class="stat__value">30–40%</div>
+          <div class="stat__label">детей на момент постановки диагноза поступают с кетоацидозом — то есть болезнь выявляют уже на поздней стадии</div>
+          <div class="stat__note">Доля заметно различается между странами и регионами</div>
+        </div>
+
+      </div>
+
+      <div class="chart-card reveal">
+        <div class="chart-card__head">
+          <div>
+            <h3 class="h4">Как баллы превращаются в оценку</h3>
+            <p class="caption text-3 mt-4">Реальная кривая расчёта: первые значимые признаки
+            дают наибольший прирост, дальше рост замедляется.</p>
+          </div>
+        </div>
+
+        <svg viewBox="0 0 640 320" style="width:100%;height:auto" role="img"
+             aria-label="Кривая перевода суммы баллов в оценку риска: насыщение, границы уровней на 25 и 60 процентах">
+          <defs>
+            <linearGradient id="curveArea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#19D3E6" stop-opacity="0.22"/>
+              <stop offset="1" stop-color="#19D3E6" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- сетка -->
+          <g stroke="#193149" stroke-width="1">
+            <line x1="56" y1="20"  x2="620" y2="20"/>
+            <line x1="56" y1="80"  x2="620" y2="80"/>
+            <line x1="56" y1="140" x2="620" y2="140"/>
+            <line x1="56" y1="200" x2="620" y2="200"/>
+            <line x1="56" y1="260" x2="620" y2="260"/>
+          </g>
+          <g class="c-y" fill="#71869A" font-family="Inter, sans-serif" font-size="11" text-anchor="end">
+            <text x="44" y="24">100</text>
+            <text x="44" y="84">75</text>
+            <text x="44" y="144">50</text>
+            <text x="44" y="204">25</text>
+            <text x="44" y="264">0</text>
+          </g>
+          <line x1="56" y1="20" x2="56" y2="260" stroke="#193149"/>
+
+          <!-- границы уровней -->
+          <g stroke-dasharray="4 6" stroke-width="1">
+            <line x1="56" y1="116.0" x2="620" y2="116.0" stroke="#EF4444" stroke-opacity="0.5"/>
+            <line x1="56" y1="200.0" x2="620" y2="200.0" stroke="#F59E0B" stroke-opacity="0.5"/>
+          </g>
+          <g class="c-note" font-family="Inter, sans-serif" font-size="10" letter-spacing="0.6">
+            <text x="614" y="110.0" text-anchor="end" fill="#EF4444">высокий риск · 60</text>
+            <text x="614" y="194.0" text-anchor="end" fill="#F59E0B">умеренный риск · 25</text>
+          </g>
+
+          <!-- кривая -->
+          <path d="M56.0 260.0 L72.1 245.0 L88.2 230.9 L104.3 217.8 L120.5 205.4 L136.6 193.8 L152.7 183.0 L168.8 172.8 L184.9 163.2 L201.0 154.3 L217.1 145.9 L233.3 138.0 L249.4 130.7 L265.5 123.7 L281.6 117.3 L297.7 111.2 L313.8 105.5 L329.9 100.1 L346.1 95.1 L362.2 90.4 L378.3 86.0 L394.4 81.9 L410.5 78.0 L426.6 74.4 L442.7 71.0 L458.9 67.8 L475.0 64.8 L491.1 62.0 L507.2 59.4 L523.3 57.0 L539.4 54.6 L555.5 52.5 L571.7 50.5 L587.8 48.5 L603.9 46.8 L620.0 45.1 L620.0 260.0 L56.0 260.0 Z" fill="url(#curveArea)"/>
+          <path d="M56.0 260.0 L72.1 245.0 L88.2 230.9 L104.3 217.8 L120.5 205.4 L136.6 193.8 L152.7 183.0 L168.8 172.8 L184.9 163.2 L201.0 154.3 L217.1 145.9 L233.3 138.0 L249.4 130.7 L265.5 123.7 L281.6 117.3 L297.7 111.2 L313.8 105.5 L329.9 100.1 L346.1 95.1 L362.2 90.4 L378.3 86.0 L394.4 81.9 L410.5 78.0 L426.6 74.4 L442.7 71.0 L458.9 67.8 L475.0 64.8 L491.1 62.0 L507.2 59.4 L523.3 57.0 L539.4 54.6 L555.5 52.5 L571.7 50.5 L587.8 48.5 L603.9 46.8 L620.0 45.1" fill="none" stroke="#19D3E6" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- точки пересечения с границами -->
+          <g fill="#0E2033" stroke-width="2">
+            <circle cx="127.9" cy="200.0" r="4" stroke="#F59E0B"/>
+            <circle cx="284.9" cy="116.0" r="4" stroke="#EF4444"/>
+          </g>
+
+          <g class="c-x" fill="#71869A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle">
+            <text x="56"  y="284">0</text>
+            <text x="127.9" y="284">18</text>
+            <text x="284.9" y="284">57</text>
+            <text x="612" y="284">140</text>
+            <text x="338" y="308">Сумма баллов по отмеченным признакам</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== DOCTORS ============================ -->
+<section class="section section--alt" id="doctors">
+  <div class="container doctors">
+    <div class="reveal">
+      <div class="eyebrow">Для врачей</div>
+      <h2>Кабинет врача: скрининг превращается в рабочий инструмент</h2>
+      <p class="lead mt-4">
+        Педиатр или эндокринолог видит поток оценок по своим пациентам, может отфильтровать
+        группу высокого риска и не потерять ребёнка, которому нужно повторное наблюдение.
+      </p>
+
+      <ul class="feature-list">
+        <li><i data-icon="users"></i> Единый список пациентов и история их оценок</li>
+        <li><i data-icon="bar-chart"></i> Сводная статистика по распределению риска</li>
+        <li><i data-icon="bell"></i> Отметка пациентов, требующих повторного контроля</li>
+        <li><i data-icon="download"></i> Выгрузка результатов в медицинскую документацию</li>
+      </ul>
+
+      <a class="btn btn-secondary mt-8" href="/doctor">
+        Посмотреть демо кабинета <i data-icon="arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="dash-preview reveal">
+      <div class="dash-preview__bar">
+        <span class="dash-preview__dot"></span>
+        <span class="dash-preview__dot"></span>
+        <span class="dash-preview__dot"></span>
+        <span class="dash-preview__url">ndst.app / doctor / overview</span>
+      </div>
+      <div class="dash-preview__body">
+        <div class="dash-preview__tiles">
+          <div class="dash-tile"><div class="dash-tile__v">1 284</div><div class="dash-tile__l">Пациентов</div></div>
+          <div class="dash-tile"><div class="dash-tile__v">3 821</div><div class="dash-tile__l">Оценок</div></div>
+          <div class="dash-tile"><div class="dash-tile__v" style="color:var(--danger)">87</div><div class="dash-tile__l">Высокий риск</div></div>
+          <div class="dash-tile"><div class="dash-tile__v" style="color:var(--primary)">143</div><div class="dash-tile__l">На контроле</div></div>
+        </div>
+
+        <table class="mini-table">
+          <thead>
+            <tr><th>Пациент</th><th>Возраст</th><th>Риск</th><th>Оценка</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>А. Смирнова</td><td>9 лет</td><td><span class="badge badge--high"><span class="dot"></span>Высокий</span></td><td>12.03</td></tr>
+            <tr><td>М. Иванов</td><td>6 лет</td><td><span class="badge badge--mod"><span class="dot"></span>Умеренный</span></td><td>11.03</td></tr>
+            <tr><td>К. Петров</td><td>13 лет</td><td><span class="badge badge--low"><span class="dot"></span>Низкий</span></td><td>11.03</td></tr>
+          </tbody>
+        </table>
+        <p class="caption text-3">Пример интерфейса. Пациенты вымышленные.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== FAQ ============================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--center reveal">
+      <div class="eyebrow">Вопросы</div>
+      <h2>Частые вопросы</h2>
+    </div>
+
+    <div class="faq" id="faq">
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false">
+          Это заменяет визит к врачу? <i data-icon="chevron-down"></i>
+        </button>
+        <div class="faq__a"><div><p>
+          Нет. NDST — скрининговый инструмент. Он помогает структурировать наблюдения
+          и понять, насколько срочно нужен приём. Диагноз ставит только врач на основании
+          осмотра и лабораторных исследований.
+        </p></div></div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false">
+          Куда попадают ответы из анкеты? <i data-icon="chevron-down"></i>
+        </button>
+        <div class="faq__a"><div><p>
+          Расчёт выполняется в вашем браузере, и по умолчанию ответы никуда не уходят.
+          Отправить их можно только вручную — кнопкой «Сохранить» на экране результата,
+          чтобы показать анкету врачу по короткому коду. Имя ребёнка не сохраняется
+          ни при каком сценарии, регистрация не требуется.
+        </p></div></div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false">
+          Как считается оценка риска? <i data-icon="chevron-down"></i>
+        </button>
+        <div class="faq__a"><div><p>
+          Каждому ответу соответствует вес, отражающий клиническую значимость признака:
+          классические симптомы весят больше, чем факторы образа жизни. Сумма весов
+          переводится в шкалу 0–100 и в один из трёх уровней риска. Все учтённые факторы
+          с их вкладом показываются на экране результата.
+        </p></div></div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false">
+          Для какого возраста подходит анкета? <i data-icon="chevron-down"></i>
+        </button>
+        <div class="faq__a"><div><p>
+          Анкета рассчитана на детей и подростков от 1 года до 17 лет. Для детей до года
+          оценка не проводится — при любых тревожных симптомах у младенца нужно сразу
+          обращаться к педиатру.
+        </p></div></div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false">
+          Что делать с результатом? <i data-icon="chevron-down"></i>
+        </button>
+        <div class="faq__a"><div><p>
+          Сохраните или распечатайте сводку и покажите её педиатру. В ней перечислены
+          отмеченные симптомы и факторы риска — это экономит время на приёме и снижает
+          вероятность, что важная деталь будет забыта.
+        </p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CTA =============================== -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div class="ai-tag" style="justify-content:center">Бесплатно · без регистрации</div>
+      <h2 class="mt-4">Оцените риск у своего ребёнка за семь минут</h2>
+      <p>Пять шагов, понятный результат и конкретные рекомендации по дальнейшим действиям.</p>
+      <div class="hero__actions">
+        <a class="btn btn-primary btn-lg" href="/assessment">
+          Начать оценку <i data-icon="arrow-right"></i>
+        </a>
+        <a class="btn btn-secondary btn-lg" href="#symptoms">Изучить симптомы</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__about">
+        <a class="logo" href="/">
+          <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+        </a>
+        <p>Платформа ранней оценки факторов риска сахарного диабета у детей.
+           Создана, чтобы родитель и врач заметили проблему вовремя.</p>
+      </div>
+
+      <div>
+        <h5>Продукт</h5>
+        <ul>
+          <li><a href="/assessment">Оценка риска</a></li>
+          <li><a href="#how">Как это работает</a></li>
+          <li><a href="/patient">Кабинет пациента</a></li>
+          <li><a href="/doctor">Кабинет врача</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Информация</h5>
+        <ul>
+          <li><a href="#symptoms">Симптомы</a></li>
+          <li><a href="#about">О проекте</a></li>
+          <li><a href="#faq">Вопросы и ответы</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Контакты</h5>
+        <ul>
+          <li><a href="mailto:info@ndst.app">info@ndst.app</a></li>
+          <li><a href="#doctors">Сотрудничество с клиниками</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="disclaimer mt-12">
+      <i data-icon="info"></i>
+      <p><strong>Важно:</strong> материалы сайта и результат оценки носят информационный характер,
+      не являются медицинским диагнозом и не заменяют консультацию врача. При появлении
+      тревожных симптомов у ребёнка обратитесь к педиатру или эндокринологу.</p>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 2026 NDST</span>
+      <span>Фото: Jennifer Kalenberg / Unsplash · Сделано для раннего выявления диабета у детей</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts/i18n.js"></script>
+<script src="/scripts/icons.js"></script>
+<script src="/scripts/main.js"></script>
+</body>
+</html>

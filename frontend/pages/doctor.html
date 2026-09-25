@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кабинет врача — NDST</title>
+<meta name="description" content="Демонстрационный кабинет врача NDST: список пациентов, распределение риска и история оценок.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/styles/base.css">
+<link rel="stylesheet" href="/styles/cabinet.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- затемнение под выдвижной панелью, только телефон -->
+  <div class="side-scrim" id="sideScrim" hidden></div>
+
+  <!-- ============================ SIDEBAR =========================== -->
+  <aside class="side" id="sideNav">
+    <a class="side__logo" href="/">
+      <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+    </a>
+
+    <div class="side__label">Обзор</div>
+    <nav class="side__nav">
+      <a class="side__link is-active" href="/doctor" data-view="overview">
+        <i data-icon="layout-dashboard"></i> Сводка
+      </a>
+      <a class="side__link" href="/doctor/assessments" data-view="assessments">
+        <i data-icon="clipboard-list"></i> Оценки <span class="count" id="cntAssessments">—</span>
+      </a>
+      <a class="side__link" href="/doctor/risk" data-view="risk">
+        <i data-icon="activity"></i> Анализ риска
+      </a>
+      <a class="side__link" href="/doctor/stats" data-view="stats">
+        <i data-icon="pie-chart"></i> Статистика
+      </a>
+    </nav>
+
+    <div class="side__label">Прочее</div>
+    <nav class="side__nav">
+      <a class="side__link" href="/doctor/knowledge" data-view="knowledge">
+        <i data-icon="book-open"></i> База знаний
+      </a>
+      <a class="side__link" href="/doctor/settings" data-view="settings">
+        <i data-icon="sliders"></i> Настройки
+      </a>
+    </nav>
+
+    <div class="side__spacer"></div>
+
+    <div class="side__user">
+      <div class="side__avatar" id="meInitials">—</div>
+      <div>
+        <div class="side__user-name" id="meName">—</div>
+        <div class="side__user-role" id="meRole">Педиатр</div>
+      </div>
+    </div>
+
+    <!-- на телефоне панель заменяет собой шапку, поэтому язык и выход здесь -->
+    <div class="side__mobile">
+      <div data-lang-mount></div>
+      <button class="btn btn-secondary btn-block" type="button" id="logoutBtnMobile">
+        <i data-icon="log-out"></i> Выйти
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================= MAIN ============================= -->
+  <div class="main">
+
+    <div class="topbar">
+      <button class="burger topbar__burger" id="sideToggle" type="button"
+              aria-label="Разделы" aria-expanded="false" aria-controls="sideNav">
+        <i data-icon="menu"></i>
+      </button>
+
+      <a class="logo topbar__logo" href="/doctor" aria-label="NDST">
+        <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+      </a>
+
+      <div class="search">
+        <i data-icon="search"></i>
+        <input type="search" id="searchInput" placeholder="Поиск по пациенту или ID" aria-label="Поиск пациента">
+      </div>
+      <div class="topbar__actions">
+        <a class="icon-btn has-dot" href="/doctor/assessments" data-view="assessments"
+           id="bellLink" aria-label="Кто на повторном контроле"><i data-icon="bell"></i></a>
+        <button class="btn btn-secondary btn-sm" type="button" id="logoutBtn">
+          <i data-icon="log-out"></i> Выйти
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="demo-note">
+        <i data-icon="info"></i>
+        <span id="dataNote">Данные загружаются с сервера. Анкета не собирает имя ребёнка —
+        оценка опознаётся по коду, а метку пациента ставит врач.</span>
+      </div>
+
+      <!-- ========================= СВОДКА ========================== -->
+      <section class="view is-current" data-view="overview">
+        <div class="page-head">
+          <div>
+            <h1>Сводка</h1>
+            <p>Показатели по сохранённым оценкам</p>
+          </div>
+          <div class="row">
+            <button class="btn btn-secondary btn-sm" type="button" id="periodBtn">
+              <i data-icon="calendar"></i> <span id="periodLabel">30 дней</span>
+            </button>
+            <button class="btn btn-primary btn-sm" type="button" id="exportOverview">
+              <i data-icon="download"></i> Выгрузить
+            </button>
+          </div>
+        </div>
+
+        <div class="tiles">
+          <div class="tile">
+            <div class="tile__head">
+              <span class="tile__label">Всего оценок</span>
+              <span class="tile__icon"><i data-icon="clipboard-list"></i></span>
+            </div>
+            <div class="tile__value" id="statTotal">—</div>
+            <div class="tile__delta"><i data-icon="database"></i> <span id="statTotalNote">за всё время</span></div>
+          </div>
+
+          <div class="tile">
+            <div class="tile__head">
+              <span class="tile__label" id="statMonthLabel">За последние 30 дней</span>
+              <span class="tile__icon"><i data-icon="calendar"></i></span>
+            </div>
+            <div class="tile__value" id="statMonth">—</div>
+            <div class="tile__delta"><i data-icon="trending-up"></i> <span id="statMonthNote">новых оценок</span></div>
+          </div>
+
+          <div class="tile tile--danger">
+            <div class="tile__head">
+              <span class="tile__label">Высокий риск</span>
+              <span class="tile__icon"><i data-icon="alert-triangle"></i></span>
+            </div>
+            <div class="tile__value" id="statHigh">—</div>
+            <div class="tile__delta"><i data-icon="activity"></i> <span id="statHighNote">—</span></div>
+          </div>
+
+          <div class="tile tile--cyan">
+            <div class="tile__head">
+              <span class="tile__label">На повторном контроле</span>
+              <span class="tile__icon"><i data-icon="bell"></i></span>
+            </div>
+            <div class="tile__value" id="statFollow">—</div>
+            <div class="tile__delta"><i data-icon="bell"></i> <span id="statFollowNote">требуют контроля</span></div>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Динамика оценок</h2>
+                <p>Количество пройденных анкет по месяцам</p>
+              </div>
+              <div class="chart-legend" style="display:flex;gap:16px;font-size:12px;color:var(--text-3)">
+                <span style="display:inline-flex;align-items:center;gap:7px">
+                  <i style="width:10px;height:2px;background:#19D3E6;display:inline-block;border-radius:2px"></i> Все оценки
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:7px">
+                  <i style="width:10px;height:2px;background:#EF4444;display:inline-block;border-radius:2px"></i> Высокий риск
+                </span>
+              </div>
+            </div>
+            <div class="panel__body">
+              <svg id="trendChart" viewBox="0 0 660 280" style="width:100%;height:auto"
+                   role="img" aria-label="График динамики количества оценок по месяцам">
+              </svg>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Распределение риска</h2>
+                <p>По 24 последним оценкам</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <svg id="donut" viewBox="0 0 200 200" style="width:180px;height:180px;margin:0 auto 24px"
+                   role="img" aria-label="Круговая диаграмма распределения уровней риска"></svg>
+              <div class="legend" id="donutLegend"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Последние оценки</h2>
+              <p>Шесть самых свежих результатов</p>
+            </div>
+            <a class="btn btn-ghost btn-sm" href="/doctor/assessments" data-view="assessments">
+              Все оценки <i data-icon="arrow-right"></i>
+            </a>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Оценка</th><th>Возраст</th><th>Риск</th><th>ДСТ</th>
+                  <th>Ключевые факторы</th><th>Дата</th>
+                </tr>
+              </thead>
+              <tbody id="recentBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================== ПАЦИЕНТЫ ========================= -->
+      <section class="view" data-view="assessments">
+        <div class="page-head">
+          <div>
+            <h1>Оценки</h1>
+            <p id="patientsSub">—</p>
+          </div>
+          <div class="row">
+            <button class="btn btn-secondary btn-sm" type="button" id="exportTable">
+              <i data-icon="download"></i> Экспорт CSV
+            </button>
+            <a class="btn btn-primary btn-sm" href="/assessment"><i data-icon="plus"></i> Новая оценка</a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div class="filters" id="filters">
+              <button class="chip is-active" data-filter="all" type="button">Все <span class="num" data-count="all"></span></button>
+              <button class="chip" data-filter="high" type="button">Высокий риск <span class="num" data-count="high"></span></button>
+              <button class="chip" data-filter="mod" type="button">Умеренный <span class="num" data-count="mod"></span></button>
+              <button class="chip" data-filter="low" type="button">Низкий <span class="num" data-count="low"></span></button>
+              <button class="chip" data-filter="followup" type="button">На контроле <span class="num" data-count="followup"></span></button>
+              <button class="chip" data-filter="dst" type="button">С ДСТ <span class="num" data-count="dst"></span></button>
+              <button class="chip" data-filter="nodst" type="button">Без ДСТ <span class="num" data-count="nodst"></span></button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="sortable" data-sort="name">Оценка <i data-icon="chevron-down"></i></th>
+                  <th class="sortable" data-sort="age">Возраст <i data-icon="chevron-down"></i></th>
+                  <th class="sortable" data-sort="score">Риск <i data-icon="chevron-down"></i></th>
+                  <th class="sortable" data-sort="dst">ДСТ <i data-icon="chevron-down"></i></th>
+                  <th>Ключевые факторы</th>
+                  <th class="sortable" data-sort="date">Последняя оценка <i data-icon="chevron-down"></i></th>
+                  <th>Статус</th>
+                </tr>
+              </thead>
+              <tbody id="patientsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="table-foot">
+            <span id="tableInfo">—</span>
+            <div class="pager" id="pager"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================== ЗАГЛУШКИ ========================= -->
+
+      <!-- ================= АНАЛИЗ РИСКА: ДСТ И ДИАБЕТ ================= -->
+      <section class="view" data-view="risk">
+        <div class="page-head">
+          <div>
+            <h1>Анализ риска</h1>
+            <p>Риск диабета у детей с дисплазией соединительной ткани и без неё</p>
+          </div>
+        </div>
+
+        <div class="tiles tiles--3">
+          <div class="tile tile--cyan">
+            <div class="tile__head">
+              <span class="tile__label">Высокий риск без ДСТ</span>
+              <span class="tile__icon"><i data-icon="users"></i></span>
+            </div>
+            <div class="tile__value" id="cmpNoDst">—</div>
+            <div class="tile__delta"><i data-icon="activity"></i> <span id="cmpNoDstNote">—</span></div>
+          </div>
+
+          <div class="tile tile--danger">
+            <div class="tile__head">
+              <span class="tile__label">Высокий риск при ДСТ</span>
+              <span class="tile__icon"><i data-icon="alert-triangle"></i></span>
+            </div>
+            <div class="tile__value" id="cmpDst">—</div>
+            <div class="tile__delta"><i data-icon="activity"></i> <span id="cmpDstNote">—</span></div>
+          </div>
+
+          <div class="tile">
+            <div class="tile__head">
+              <span class="tile__label">Осмотрено врачом по шкале ДСТ</span>
+              <span class="tile__icon"><i data-icon="stethoscope"></i></span>
+            </div>
+            <div class="tile__value" id="cmpExamined">—</div>
+            <div class="tile__delta"><i data-icon="clipboard-list"></i> <span id="cmpExaminedNote">—</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Сравнение групп по шкале ДСТ</h2>
+              <p>Считаются дети: у ребёнка берётся последняя анкета. Степень — по осмотру врача,
+                 а если осмотра не было, предварительно по ответам родителя</p>
+            </div>
+            <div class="compare-legend">
+              <span><i style="background:#22C55E"></i>Низкий</span>
+              <span><i style="background:#F59E0B"></i>Умеренный</span>
+              <span><i style="background:#EF4444"></i>Высокий</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table compare-table">
+              <thead>
+                <tr>
+                  <th>Группа</th><th>Оценок</th><th>Средний риск</th>
+                  <th>Риск диабета</th><th>Высокий риск</th><th>Осмотр врача</th>
+                </tr>
+              </thead>
+              <tbody id="compareBody"></tbody>
+            </table>
+          </div>
+          <div class="panel__body compare-note">
+            <p>Шкала ДСТ: 0–15 — недостаточно фенотипических признаков, 16–25 — I степень,
+               26–35 — II степень, 36 и выше — III степень. Аномалии органов учитываются
+               отдельно и в индекс не входят.</p>
+            <p>Это сравнение групп, а не доказательство связи: для вывода нужны оценки
+               с осмотром врача и достаточное число детей в каждой группе. Осмотр по шкале
+               ДСТ открывается кнопкой в колонке «ДСТ» таблицы оценок.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" data-view="stats">
+        <div class="page-head">
+          <div>
+            <h1>Статистика</h1>
+            <p>Отчёт за период по сохранённым оценкам</p>
+          </div>
+          <div class="filters" id="reportPeriod">
+            <button class="chip is-active" data-days="30" type="button">30 дней</button>
+            <button class="chip" data-days="90" type="button">90 дней</button>
+            <button class="chip" data-days="365" type="button">Год</button>
+          </div>
+        </div>
+
+        <div class="tiles">
+          <div class="tile">
+            <div class="tile__head">
+              <span class="tile__label">Оценок за период</span>
+              <span class="tile__icon"><i data-icon="clipboard-list"></i></span>
+            </div>
+            <div class="tile__value" id="repTotal">—</div>
+            <div class="tile__delta"><i data-icon="activity"></i> <span id="repAvg">—</span></div>
+          </div>
+          <div class="tile tile--danger">
+            <div class="tile__head">
+              <span class="tile__label">Высокий риск</span>
+              <span class="tile__icon"><i data-icon="alert-triangle"></i></span>
+            </div>
+            <div class="tile__value" id="repHigh">—</div>
+            <div class="tile__delta"><i data-icon="users"></i> <span id="repHighNote">—</span></div>
+          </div>
+          <div class="tile tile--cyan">
+            <div class="tile__head">
+              <span class="tile__label">Осмотрено по шкале ДСТ</span>
+              <span class="tile__icon"><i data-icon="stethoscope"></i></span>
+            </div>
+            <div class="tile__value" id="repExams">—</div>
+            <div class="tile__delta"><i data-icon="clipboard-list"></i> <span id="repExamsNote">—</span></div>
+          </div>
+          <div class="tile">
+            <div class="tile__head">
+              <span class="tile__label">На повторном контроле</span>
+              <span class="tile__icon"><i data-icon="bell"></i></span>
+            </div>
+            <div class="tile__value" id="repFollow">—</div>
+            <div class="tile__delta"><i data-icon="bell"></i> <span id="repFollowNote">—</span></div>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Чаще всего влияло на оценку</h2>
+                <p>Сколько анкет за период содержали фактор</p>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="table table--compact">
+                <thead><tr><th>Фактор</th><th>Анкет</th><th>Доля</th></tr></thead>
+                <tbody id="repFactors"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Степени ДСТ за период</h2>
+                <p>По анкетам, а не по детям</p>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="table table--compact">
+                <thead><tr><th>Степень</th><th>Анкет</th><th>Доля</th></tr></thead>
+                <tbody id="repDegrees"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Выгрузка</h2>
+              <p>Файл CSV открывается в Excel: все ответы, риск и степень ДСТ</p>
+            </div>
+            <button class="btn btn-primary btn-sm" type="button" id="exportReport">
+              <i data-icon="download"></i> Выгрузить за период
+            </button>
+          </div>
+          <div class="panel__body compare-note">
+            <p>В файл попадают: код оценки, дата, метка пациента, возраст и пол, рост и вес,
+               ИМТ, риск диабета в процентах, уровень, индекс и степень ДСТ, число признаков
+               и аномалий, группа крови, питание, симптомы и факторы риска.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" data-view="knowledge">
+        <div class="page-head">
+          <div>
+            <h1>База знаний</h1>
+            <p>Как платформа считает риск диабета и степень ДСТ</p>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Риск сахарного диабета</h2>
+                <p>Процент от 0 до 97</p>
+              </div>
+            </div>
+            <div class="panel__body compare-note">
+              <p>Каждый отмеченный признак даёт баллы. Сумма переводится в процент по насыщающей
+                 кривой 100 × (1 − e^(−сумма / 62)): первые значимые признаки поднимают оценку
+                 сильнее всего.</p>
+              <p>Если у ребёнка одновременно жажда, частое мочеиспускание и потеря веса или ночное
+                 недержание, оценка не ниже 70%.</p>
+              <p>Уровни: до 25% — низкий риск, 25–59% — умеренный, 60% и выше — высокий.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Шкала ДСТ</h2>
+                <p>Считается отдельно от риска диабета</p>
+              </div>
+            </div>
+            <div class="panel__body compare-note">
+              <p>Индекс — сумма баллов фенотипических признаков, признаков с градацией и признака
+                 арахнодактилии. 0–15 — недостаточно фенотипических признаков, 16–25 — I степень,
+                 26–35 — II степень, 36 и выше — III степень.</p>
+              <p>Аномалии органов считаются отдельным числом и в индекс не входят.</p>
+              <p>Родитель отмечает частые признаки, врач заполняет полный список на осмотре.
+                 Осмотр врача переносится на следующие анкеты того же ребёнка.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Баллы факторов риска диабета</h2>
+              <p>Те же веса, что в анкете и на сервере</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table table--compact">
+              <thead><tr><th>Группа</th><th>Фактор</th><th>Баллы</th></tr></thead>
+              <tbody id="kbRisk"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Баллы признаков ДСТ</h2>
+              <p>По документу «Новые правила программы»</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table table--compact">
+              <thead><tr><th>Признак</th><th>Баллы</th><th>В анкете родителя</th></tr></thead>
+              <tbody id="kbDst"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h2>Ограничения</h2>
+              <p>Что важно помнить при чтении результата</p>
+            </div>
+          </div>
+          <div class="panel__body compare-note">
+            <p>Результат — оценка факторов риска, а не диагноз.</p>
+            <p>Баллы шкалы ДСТ взяты из документа DST. Баллы факторов риска диабета расставлены
+               по клинической логике и должны пройти проверку врачом-эндокринологом перед
+               применением на реальных пациентах.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= НАСТРОЙКИ ======================== -->
+      <section class="view" data-view="settings">
+        <div class="page-head">
+          <div>
+            <h1>Настройки</h1>
+            <p>Профиль врача и доступ к кабинету</p>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h2>Профиль</h2>
+                <p>Кто вошёл в кабинет</p>
+              </div>
+            </div>
+            <div class="panel__body set-body">
+              <div class="set-row"><span>Имя</span><b id="setName">—</b></div>
+              <div class="set-row"><span>Рабочая почта</span><b id="setEmail">—</b></div>
+              <div class="set-row"><span>Права</span><b id="setRole">—</b></div>
+
+              <h3 class="set-title">Смена пароля</h3>
+              <div class="field">
+                <label for="passCurrent">Текущий пароль</label>
+                <input class="input" type="password" id="passCurrent" autocomplete="current-password">
+              </div>
+              <div class="field">
+                <label for="passNew">Новый пароль</label>
+                <input class="input" type="password" id="passNew" autocomplete="new-password"
+                       placeholder="Не менее 8 символов">
+              </div>
+              <p class="exam__error" id="passError" hidden></p>
+              <button class="btn btn-secondary btn-sm" type="button" id="passSave">
+                <i data-icon="check"></i> Сменить пароль
+              </button>
+            </div>
+          </div>
+
+          <div class="panel" id="codePanel" hidden>
+            <div class="panel__head">
+              <div>
+                <h2>Код клиники</h2>
+                <p>По нему врач заводит себе учётную запись</p>
+              </div>
+            </div>
+            <div class="panel__body set-body">
+              <div class="code-box" id="clinicCode">—</div>
+              <p class="set-note" id="codeNote">Передайте код врачу вместе со ссылкой на страницу
+                регистрации. Новый код отменяет старый: те, кто уже зарегистрировался, остаются.</p>
+              <div class="row">
+                <button class="btn btn-secondary btn-sm" type="button" id="codeCopy">
+                  <i data-icon="copy"></i> Скопировать
+                </button>
+                <button class="btn btn-secondary btn-sm" type="button" id="codeNew">
+                  <i data-icon="refresh"></i> Создать новый
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="doctorsPanel" hidden>
+          <div class="panel__head">
+            <div>
+              <h2>Врачи</h2>
+              <p>У кого есть доступ к оценкам пациентов</p>
+            </div>
+            <span class="set-note" id="doctorsNote">—</span>
+          </div>
+          <div class="table-wrap">
+            <table class="table table--compact">
+              <thead>
+                <tr><th>Имя</th><th>Почта</th><th>Права</th><th>Добавлен</th><th>Действия</th></tr>
+              </thead>
+              <tbody id="doctorsBody"></tbody>
+            </table>
+          </div>
+          <div class="panel__body" id="resetBox" hidden>
+            <p class="set-note">
+              <span>Временный пароль для</span> <b id="resetWho">—</b>:
+              <b class="reset-pass" id="resetPass">—</b>.
+              <span>Передайте его врачу — сменить пароль он сможет в своих настройках.
+              Больше этот пароль нигде не покажется.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- сообщения о подготовке PDF -->
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<!-- ======================== КАРТОЧКА ОЦЕНКИ ======================== -->
+<dialog class="exam" id="cardDialog" aria-labelledby="cardTitle">
+  <div class="exam__form">
+    <div class="exam__head">
+      <div>
+        <h2 id="cardTitle">Карточка оценки</h2>
+        <p><span id="cardCode">—</span> · <span id="cardDate">—</span></p>
+      </div>
+      <button class="icon-btn" type="button" id="cardClose" aria-label="Закрыть"><i data-icon="x"></i></button>
+    </div>
+
+    <div class="exam__body">
+      <section class="exam__sec">
+        <h3>Метка пациента</h3>
+        <p class="exam__hint">Анкета не собирает имя ребёнка. Метку ставит врач, и видна она только в кабинете врача.</p>
+        <input class="input" id="cardLabel" maxlength="80" placeholder="Например, Иванов Тимур">
+      </section>
+
+      <section class="exam__sec">
+        <h3>Повторный контроль</h3>
+        <label class="exam-check">
+          <input type="checkbox" id="cardFollow">
+          <span class="exam-check__box"></span>
+          <span class="exam-check__text">Нужен повторный контроль</span>
+        </label>
+        <p class="exam__hint">Отметка видна родителю в его кабинете и попадает в фильтр «На контроле».</p>
+      </section>
+    </div>
+
+    <p class="exam__error" id="cardError" hidden></p>
+
+    <div class="exam__foot">
+      <button class="btn btn-ghost btn-sm" type="button" id="cardExam">
+        <i data-icon="activity"></i> Осмотр по шкале ДСТ
+      </button>
+      <div class="exam__foot-right">
+        <button class="btn btn-secondary btn-sm" type="button" id="cardCancel">Отмена</button>
+        <button class="btn btn-primary btn-sm" type="button" id="cardSave">
+          <i data-icon="check"></i> Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- ======================= ОСМОТР ПО ШКАЛЕ ДСТ ======================= -->
+<dialog class="exam" id="examDialog" aria-labelledby="examTitle">
+  <div class="exam__form">
+    <div class="exam__head">
+      <div>
+        <h2 id="examTitle">Осмотр по шкале ДСТ</h2>
+        <p><span id="examWho">—</span> · <span id="examSource">—</span></p>
+      </div>
+      <button class="icon-btn" type="button" id="examClose" aria-label="Закрыть"><i data-icon="x"></i></button>
+    </div>
+
+    <div class="exam__summary">
+      <div class="exam__stat"><b id="examIndex">0</b><span>Индекс</span></div>
+      <div class="exam__stat"><b id="examChosen">0</b><span>Признаков</span></div>
+      <div class="exam__stat"><b id="examHeavy">0</b><span>Значимых 4–5</span></div>
+      <div class="exam__stat"><b id="examAnomalyCount">0</b><span>Аномалий</span></div>
+      <span class="badge" id="examBadge"><span class="dot"></span><span id="examBadgeText">—</span></span>
+    </div>
+
+    <div class="exam__body">
+      <section class="exam__sec">
+        <h3>Фенотипические признаки</h3>
+        <div class="exam__grid" id="examPhenotypes"></div>
+      </section>
+
+      <section class="exam__sec">
+        <h3>Признаки с градацией</h3>
+        <div id="examComplex"></div>
+      </section>
+
+      <section class="exam__sec">
+        <h3>Признаки арахнодактилии</h3>
+        <p class="exam__hint">Два теста дают один признак: оба отрицательны — 0,
+          положителен один — 3, положительны оба — 5 баллов.</p>
+        <div id="examTests"></div>
+        <p class="exam__arach" id="examArach"></p>
+      </section>
+
+      <section class="exam__sec">
+        <h3>Ассоциированные аномалии</h3>
+        <p class="exam__hint">Учитываются отдельным числом и в индекс не входят:
+          пороги степеней рассчитаны на фенотипические признаки.</p>
+        <div class="exam__grid" id="examAnomalies"></div>
+      </section>
+    </div>
+
+    <p class="exam__error" id="examError" hidden></p>
+
+    <div class="exam__foot">
+      <button class="btn btn-ghost btn-sm" type="button" id="examReset" hidden>
+        <i data-icon="refresh"></i> Вернуть ответы родителя
+      </button>
+      <div class="exam__foot-right">
+        <button class="btn btn-secondary btn-sm" type="button" id="examCancel">Отмена</button>
+        <button class="btn btn-primary btn-sm" type="button" id="examSave">
+          <i data-icon="check"></i> Сохранить осмотр
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script src="/scripts/i18n.js"></script>
+<script src="/scripts/icons.js"></script>
+<script src="/scripts/dst.js"></script>
+<script src="/scripts/assessment.js"></script>
+<script src="/scripts/doctor.js"></script>
+</body>
+</html>

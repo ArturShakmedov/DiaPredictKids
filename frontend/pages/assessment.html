@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Оценка риска — NDST</title>
+<meta name="description" content="Пять шагов: данные о ребёнке, симптомы, факторы риска, признаки дисплазии соединительной ткани и понятный результат с разбором повлиявших факторов.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/styles/base.css">
+<link rel="stylesheet" href="/styles/assessment.css">
+</head>
+<body>
+
+<!-- ============================ HEADER ============================ -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a class="logo" href="/" aria-label="NDST — на главную">
+      <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="/#about">О проекте</a>
+      <a href="/#symptoms">Симптомы</a>
+      <a href="/#how">Как это работает</a>
+      <a href="/doctor">Для врачей</a>
+    </nav>
+
+    <div class="header__actions">
+      <a class="btn btn-secondary" href="/">На главную</a>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="mobileMenu">
+        <i data-icon="menu"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Мобильная навигация">
+  <div class="mobile-menu__inner">
+
+    <div class="mobile-menu__group">
+      <div class="mobile-menu__label">Разделы</div>
+      <div class="mnav">
+        <a href="/#about"><i data-icon="info"></i>О проекте<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="/#symptoms"><i data-icon="stethoscope"></i>Симптомы<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="/#how"><i data-icon="clipboard-list"></i>Как это работает<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="/#doctors"><i data-icon="users"></i>Для врачей<i data-icon="chevron-right" class="chev"></i></a>
+      </div>
+    </div>
+
+    <div class="mobile-menu__group">
+      <div class="mobile-menu__label">Инструменты</div>
+      <div class="mnav">
+        <a href="/assessment"><i data-icon="target"></i>Оценка риска<i data-icon="chevron-right" class="chev"></i></a>
+        <a href="/doctor"><i data-icon="layout-dashboard"></i>Кабинет врача<i data-icon="chevron-right" class="chev"></i></a>
+      </div>
+    </div>
+
+    <div class="mobile-menu__cta">
+      <a class="btn btn-primary btn-block" href="/assessment">
+        Оценить риск <i data-icon="arrow-right"></i>
+      </a>
+      <p class="mobile-menu__note">Занимает около семи минут · без регистрации</p>
+    </div>
+
+  </div>
+</nav>
+
+<main class="assess">
+  <div class="container">
+    <div class="assess__inner">
+
+      <!-- ========================= ПРОГРЕСС ======================== -->
+      <div class="progress" id="progress">
+        <div class="progress__steps">
+          <div class="pstep is-active" data-step="1">
+            <span class="pstep__num">01</span>
+            <span class="pstep__title">О ребёнке</span>
+          </div>
+          <div class="pstep" data-step="2">
+            <span class="pstep__num">02</span>
+            <span class="pstep__title">Симптомы</span>
+          </div>
+          <div class="pstep" data-step="3">
+            <span class="pstep__num">03</span>
+            <span class="pstep__title">Факторы риска</span>
+          </div>
+          <div class="pstep" data-step="4">
+            <span class="pstep__num">04</span>
+            <span class="pstep__title">Соединительная ткань</span>
+          </div>
+          <div class="pstep" data-step="5">
+            <span class="pstep__num">05</span>
+            <span class="pstep__title">Результат</span>
+          </div>
+        </div>
+
+        <div class="bar"><div class="bar__fill" id="progressFill" style="width:20%"></div></div>
+
+        <div class="progress__meta">
+          <span id="progressLabel">Шаг 1 из 5</span>
+          <span>Отправка — только по вашей кнопке</span>
+        </div>
+      </div>
+
+      <form id="assessForm" novalidate>
+
+        <!-- ====================== ШАГ 1 ========================== -->
+        <section class="step-panel is-current" data-panel="1">
+          <div class="step-panel__head">
+            <h1>Расскажите о ребёнке</h1>
+            <p>Эти данные нужны, чтобы рассчитать индекс массы тела и корректно
+               интерпретировать симптомы с учётом возраста.</p>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Основные данные</div>
+
+            <div class="form-grid">
+              <div class="field span-2">
+                <span class="label">Пол ребёнка</span>
+                <div class="radio-row">
+                  <label class="radio-card">
+                    <input type="radio" name="sex" value="m" checked>
+                    <span>Мальчик</span>
+                  </label>
+                  <label class="radio-card">
+                    <input type="radio" name="sex" value="f">
+                    <span>Девочка</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="age">Возраст, полных лет</label>
+                <input class="input" type="number" id="age" name="age" min="1" max="17"
+                       inputmode="numeric" placeholder="например, 8" required>
+                <span class="error-text">Укажите возраст от 1 до 17 лет</span>
+              </div>
+
+              <div class="field">
+                <label for="height">Рост, см</label>
+                <input class="input" type="number" id="height" name="height" min="50" max="210"
+                       inputmode="decimal" placeholder="например, 130" required>
+                <span class="error-text">Укажите рост от 50 до 210 см</span>
+              </div>
+
+              <div class="field">
+                <label for="weight">Вес, кг</label>
+                <input class="input" type="number" id="weight" name="weight" min="5" max="150" step="0.1"
+                       inputmode="decimal" placeholder="например, 27" required>
+                <span class="error-text">Укажите вес от 5 до 150 кг</span>
+              </div>
+
+              <div class="field">
+                <label for="blood">Группа крови ребёнка</label>
+                <select class="select" id="blood" name="blood">
+                  <option value="unknown">Не знаю</option>
+                  <option value="O">O (I)</option>
+                  <option value="A">A (II)</option>
+                  <option value="B">B (III)</option>
+                  <option value="AB">AB (IV)</option>
+                </select>
+                <span class="hint">На балл не влияет: связь группы крови с диабетом
+                  в исследованиях противоречива. Сохраняем для врача.</span>
+              </div>
+
+              <div class="field">
+                <label for="relation">Кто заполняет анкету</label>
+                <select class="select" id="relation" name="relation">
+                  <option value="parent">Родитель или опекун</option>
+                  <option value="doctor">Медицинский работник</option>
+                  <option value="self">Сам подросток</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="bmi-live" id="bmiLive" hidden>
+              <span class="bmi-live__v" id="bmiValue">—</span>
+              <span class="bmi-live__t" id="bmiText"></span>
+            </div>
+          </div>
+
+          <p class="form-note">
+            <i data-icon="lock"></i>
+            Ответы обрабатываются в браузере. На сервер они уйдут, только если
+            вы нажмёте «Сохранить» на экране результата. Имя ребёнка мы
+            не спрашиваем намеренно.
+          </p>
+
+          <div class="step-nav">
+            <a class="btn btn-ghost" href="/"><i data-icon="arrow-left"></i> Отмена</a>
+            <div class="step-nav__right">
+              <button class="btn btn-primary" type="button" data-next>
+                Далее: симптомы <i data-icon="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================== ШАГ 2 ========================== -->
+        <section class="step-panel" data-panel="2">
+          <div class="step-panel__head">
+            <h1>Какие симптомы вы замечали</h1>
+            <p>Отметьте всё, что появилось у ребёнка в последнее время и раньше было
+               нехарактерно. Если ничего из списка нет — просто идите дальше.</p>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Классические признаки</div>
+            <div class="check-list check-list--2">
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="thirst">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Сильная жажда</span>
+                  <span class="check__desc">Пьёт заметно больше обычного, просит воду ночью</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="urination">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Частое мочеиспускание</span>
+                  <span class="check__desc">Учащённые походы в туалет, в том числе ночью</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="weightLoss">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Потеря веса</span>
+                  <span class="check__desc">Вес снижается без диеты, аппетит при этом сохранён</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="enuresis">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Ночное недержание</span>
+                  <span class="check__desc">Вернулось у ребёнка, который уже был сухим ночью</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="fatigue">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Утомляемость и вялость</span>
+                  <span class="check__desc">Стал менее активным, быстро устаёт, хочет спать днём</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="hunger">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Постоянный голод</span>
+                  <span class="check__desc">Ест больше обычного и всё равно голоден</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="vision">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Нечёткое зрение</span>
+                  <span class="check__desc">Жалуется на «размытость», хуже видит доску или текст</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="healing">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Долгое заживление</span>
+                  <span class="check__desc">Ранки заживают медленно, часто повторяются инфекции</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="skin">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Сухость кожи</span>
+                  <span class="check__desc">Сухость слизистых, зуд, у девочек — молочница</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="nausea">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Тошнота, боль в животе</span>
+                  <span class="check__desc">Эпизоды тошноты или дискомфорта в животе</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="itching">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Упорный зуд кожи или в области промежности</span>
+                  <span class="check__desc">Зуд, который не проходит, и повторяющаяся молочница</span>
+                </span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" name="sym" value="sleepNight">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Нарушения ночного сна</span>
+                  <span class="check__desc">Частые пробуждения, в том числе из-за походов в туалет</span>
+                </span>
+              </label>
+
+            </div>
+
+            <div class="field mt-6">
+              <label for="duration">Как давно наблюдаются эти симптомы</label>
+              <select class="select" id="duration" name="duration">
+                <option value="none">Симптомов нет</option>
+                <option value="lt2w">Менее 2 недель</option>
+                <option value="2to8w">От 2 недель до 2 месяцев</option>
+                <option value="gt8w">Более 2 месяцев</option>
+              </select>
+              <span class="hint">Длительность классических симптомов влияет на срочность обращения к врачу.</span>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-secondary" type="button" data-prev>
+              <i data-icon="arrow-left"></i> Назад
+            </button>
+            <div class="step-nav__right">
+              <button class="btn btn-primary" type="button" data-next>
+                Далее: факторы риска <i data-icon="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================== ШАГ 3 ========================== -->
+        <section class="step-panel" data-panel="3">
+          <div class="step-panel__head">
+            <h1>Факторы риска</h1>
+            <p>Наследственность, особенности беременности и образ жизни ребёнка.
+               Если о каком-то пункте вы не знаете — оставьте его не отмеченным.</p>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Семейный анамнез</div>
+            <div class="check-list">
+              <label class="check">
+                <input type="checkbox" name="risk" value="t1dFather">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Сахарный диабет 1 типа у отца</span>
+                  <span class="check__desc">Наиболее значимый наследственный фактор</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="t1dMother">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Сахарный диабет 1 типа у матери</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="t1dSibling">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Сахарный диабет 1 типа у брата или сестры</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="t2dFamily">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Диабет 2 типа у родителя, брата или сестры</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="enzymeFamily">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Ферментопатии или нарушения обмена у родителей</span>
+                  <span class="check__desc">Например, непереносимость лактозы, наследственные обменные болезни</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Аутоиммунные заболевания у родителей</div>
+            <p class="small text-3" style="margin:-8px 0 20px">
+              Эти заболевания часто связаны с общей наследственной предрасположенностью
+              к сахарному диабету 1 типа.
+            </p>
+            <div class="check-list check-list--2">
+              <label class="check">
+                <input type="checkbox" name="risk" value="hashimoto">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Аутоиммунный тиреоидит (тиреоидит Хашимото)</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="graves">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Болезнь Грейвса</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="vitiligo">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Витилиго</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="celiacParent">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Целиакия</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="rheumatoid">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Ревматоидный артрит</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="addison">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Болезнь Аддисона</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Здоровье ребёнка</div>
+            <div class="check-list">
+              <label class="check">
+                <input type="checkbox" name="risk" value="autoimmuneChild">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">У ребёнка есть аутоиммунное заболевание</span>
+                  <span class="check__desc">Например, аутоиммунный тиреоидит или целиакия</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="acanthosis">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Тёмные бархатистые участки кожи</span>
+                  <span class="check__desc">На шее, в подмышках или паху — возможный признак инсулинорезистентности</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="viralInfection">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Перенесённые вирусные инфекции</span>
+                  <span class="check__desc">Энтеровирусы (Коксаки B), аденовирусы, повторные респираторные инфекции</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="infection">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Частые инфекции в последние месяцы</span>
+                  <span class="check__desc">Повторяющиеся вирусные или грибковые инфекции</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Беременность и роды</div>
+            <div class="check-list">
+              <label class="check">
+                <input type="checkbox" name="risk" value="gdm">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Гестационный диабет у матери</span>
+                  <span class="check__desc">Повышение сахара во время беременности этим ребёнком</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="perinatal">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Осложнения беременности или родов</span>
+                  <span class="check__desc">Внутриутробная инфекция, тяжёлый токсикоз, преждевременные роды, асфиксия в родах</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="birthWeight">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Вес при рождении более 4 кг</span>
+                  <span class="check__desc">Или менее 2,5 кг при доношенной беременности</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Образ жизни</div>
+            <div class="check-list">
+              <label class="check">
+                <input type="checkbox" name="risk" value="lowActivity">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Низкая физическая активность</span>
+                  <span class="check__desc">Менее часа активного движения в день</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="sugarDrinks">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Сладкие напитки почти каждый день</span>
+                  <span class="check__desc">Газировка, соки, сладкий чай на постоянной основе</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Питание</div>
+
+            <div class="field">
+              <label for="diet">Как в целом устроено питание ребёнка</label>
+              <select class="select" id="diet" name="diet">
+                <option value="unknown">Затрудняюсь ответить</option>
+                <option value="balanced">В целом сбалансированное</option>
+                <option value="irregular">Нерегулярное, с пропусками приёмов пищи</option>
+                <option value="sweets">Много сладостей и выпечки каждый день</option>
+                <option value="fastfood">Преобладают фастфуд и готовые продукты</option>
+              </select>
+              <span class="hint">Выберите вариант, на который рацион похож больше всего.</span>
+            </div>
+
+            <div class="field mt-6">
+              <label for="carbs">Какую часть рациона составляют углеводы</label>
+              <select class="select" id="carbs" name="carbs">
+                <option value="unknown">Затрудняюсь оценить</option>
+                <option value="low">Меньше трети</option>
+                <option value="normal">Около половины</option>
+                <option value="high">Больше половины</option>
+                <option value="veryHigh">Основная часть рациона</option>
+              </select>
+              <span class="hint">Углеводы — это хлеб, каши, макароны, картофель,
+                фрукты и сладости. Оцените на глаз по обычной тарелке.</span>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card__title">Условия жизни</div>
+            <div class="check-list">
+              <label class="check">
+                <input type="checkbox" name="risk" value="familyStress">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Длительная стрессовая обстановка в семье</span>
+                  <span class="check__desc">Затяжной конфликт, тяжёлая болезнь или утрата близкого, переезд</span>
+                </span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="risk" value="lowIncome">
+                <span class="check__box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span class="check__text">
+                  <span class="check__title">Ограниченные материальные возможности семьи</span>
+                  <span class="check__desc">Сказываются на питании и на том, как быстро удаётся попасть к врачу</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-secondary" type="button" data-prev>
+              <i data-icon="arrow-left"></i> Назад
+            </button>
+            <div class="step-nav__right">
+              <button class="btn btn-primary" type="button" data-next>
+                Далее: соединительная ткань <i data-icon="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================== ШАГ 4 ========================== -->
+        <section class="step-panel" data-panel="4">
+          <div class="step-panel__head">
+            <h1>Признаки со стороны соединительной ткани</h1>
+            <p>Недифференцированная дисплазия соединительной ткани — фон, на котором
+               нарушения углеводного обмена выявляют раньше. У каждого признака свой
+               балл по шкале ДСТ, и считаются они отдельно от риска диабета: так врач
+               сможет сравнить детей с дисплазией и без неё. Отмечайте только то,
+               в чём уверены, — точную степень определит врач на осмотре.</p>
+          </div>
+
+          <div id="dysCards"></div>
+
+          <div class="step-nav">
+            <button class="btn btn-secondary" type="button" data-prev>
+              <i data-icon="arrow-left"></i> Назад
+            </button>
+            <div class="step-nav__right">
+              <button class="btn btn-primary" type="button" id="submitBtn">
+                Показать результат <i data-icon="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </form>
+
+      <!-- ====================== АНАЛИЗ ========================== -->
+      <section class="analysing" id="analysing" aria-live="polite">
+        <svg class="analysing__ring" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#193149" stroke-width="6"/>
+          <circle class="spin" cx="50" cy="50" r="42" fill="none" stroke="#19D3E6" stroke-width="6"
+                  stroke-linecap="round" stroke-dasharray="70 194"/>
+        </svg>
+        <h2>Обрабатываем ответы</h2>
+        <p>Сопоставляем отмеченные признаки с весами факторов риска</p>
+        <ul class="analysing__log" id="analysingLog">
+          <li data-i="0"><i data-icon="check"></i> Проверка антропометрии и расчёт ИМТ</li>
+          <li data-i="1"><i data-icon="check"></i> Оценка симптомов и их длительности</li>
+          <li data-i="2"><i data-icon="check"></i> Учёт семейного анамнеза</li>
+          <li data-i="3"><i data-icon="check"></i> Оценка признаков дисплазии по шкале ДСТ</li>
+          <li data-i="4"><i data-icon="check"></i> Формирование итоговой оценки</li>
+        </ul>
+      </section>
+
+      <!-- ====================== РЕЗУЛЬТАТ ======================= -->
+      <section class="result" id="result" aria-live="polite">
+
+        <!-- Шапка только для бумаги: название и дата — часть самого документа,
+             а не браузерных колонтитулов, которые при печати можно отключить. -->
+        <div class="print-head" aria-hidden="true">
+          <span class="print-head__brand" translate="no">NDST</span>
+          <span class="print-head__title">Сводка оценки риска</span>
+          <span class="print-head__patient" id="printPatient" hidden></span>
+          <span class="print-head__date" id="printDate"></span>
+        </div>
+
+        <div class="result__hero" id="resultHero">
+          <div class="result__head">
+            <span class="result__title">Результат оценки</span>
+            <span class="ai-tag" id="resultTag">Анализ завершён</span>
+          </div>
+
+          <div class="result__body">
+            <svg class="gauge" viewBox="0 0 200 200" role="img" id="gaugeSvg"
+                 aria-label="Итоговая оценка риска">
+              <circle class="gauge__track" cx="100" cy="100" r="82" fill="none" stroke-width="14"/>
+              <circle class="gauge__value" id="gaugeArc" cx="100" cy="100" r="82" fill="none"
+                      stroke="#19D3E6" stroke-width="14"
+                      stroke-dasharray="515" stroke-dashoffset="515"
+                      transform="rotate(-90 100 100)"/>
+              <text class="gauge__num" id="gaugeNum" x="100" y="105" text-anchor="middle">0%</text>
+              <text class="gauge__cap" x="100" y="128" text-anchor="middle">АНАЛИЗ РИСКА</text>
+            </svg>
+
+            <div class="result__summary">
+              <span class="badge" id="resultBadge"><span class="dot"></span><span id="resultBadgeText">—</span></span>
+              <h2 id="resultTitle">—</h2>
+              <p id="resultText">—</p>
+
+              <div class="result__bar">
+                <div class="bar"><div class="bar__fill" id="resultBar" style="width:0"></div></div>
+                <div class="result__scale">
+                  <span>0 · низкий</span><span>25</span><span>60</span><span>100 · высокий</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-row" id="profileRow"></div>
+
+        <div class="factors">
+          <div class="factor-box factor-box--found">
+            <h3><i data-icon="alert-triangle"></i> Факторы, повлиявшие на оценку</h3>
+            <p>Отмеченные признаки и их вклад в итоговый балл</p>
+            <ul id="factorsFound"></ul>
+          </div>
+          <div class="factor-box factor-box--absent">
+            <h3><i data-icon="check-circle"></i> Не обнаружено</h3>
+            <p>Значимые признаки, которых вы не отметили</p>
+            <ul id="factorsAbsent"></ul>
+          </div>
+        </div>
+
+        <p class="ref-line" id="refLine" hidden>
+          <i data-icon="info"></i>
+          <span>Справочно, на балл не влияет: <b id="refBlood">—</b>.</span>
+        </p>
+
+        <!-- Шкала ДСТ — отдельный результат: в процент риска диабета не входит -->
+        <div class="card card--lg dst-box" id="dstBox">
+          <div class="dst-box__head">
+            <div>
+              <h3><i data-icon="activity"></i> Дисплазия соединительной ткани</h3>
+              <p>Шкала ДСТ: 0–15 — недостаточно признаков · 16–25 — I степень ·
+                 26–35 — II степень · 36 и выше — III степень</p>
+            </div>
+            <span class="badge" id="dstBadge"><span class="dot"></span><span id="dstBadgeText">—</span></span>
+          </div>
+
+          <div class="dst-stats">
+            <div class="dst-stat">
+              <div class="dst-stat__v" id="dstIndex">0</div>
+              <div class="dst-stat__l">Индекс (сумма баллов)</div>
+            </div>
+            <div class="dst-stat">
+              <div class="dst-stat__v" id="dstChosen">0</div>
+              <div class="dst-stat__l">Признаков отмечено</div>
+            </div>
+            <div class="dst-stat">
+              <div class="dst-stat__v" id="dstHeavy">0</div>
+              <div class="dst-stat__l">Значимых (вес 4–5)</div>
+            </div>
+            <div class="dst-stat">
+              <div class="dst-stat__v" id="dstAnomalies">0</div>
+              <div class="dst-stat__l">Аномалии органов</div>
+            </div>
+          </div>
+
+          <ul class="dst-list" id="dstList"></ul>
+
+          <p class="dst-note" id="dstNoteParent">Предварительная оценка по ответам анкеты: точную степень
+            определяет врач на осмотре по полной шкале ДСТ. На процент риска диабета
+            степень дисплазии не влияет — она нужна, чтобы сравнивать детей
+            с дисплазией и без неё.</p>
+          <!-- сводка из кабинета врача, когда осмотр по шкале ДСТ уже проведён -->
+          <p class="dst-note" id="dstNoteDoctor" hidden>Степень определена врачом на осмотре
+            по полной шкале ДСТ. На процент риска диабета степень дисплазии не влияет —
+            она нужна, чтобы сравнивать детей с дисплазией и без неё.</p>
+        </div>
+
+        <div class="card card--lg recs">
+          <h3>Что делать дальше</h3>
+          <ol id="recsList" class="mt-6"></ol>
+        </div>
+
+        <div class="card card--lg share mt-6" id="shareBlock">
+          <h3>Показать результат врачу</h3>
+          <p class="small text-3 mt-4">
+            Оценка посчитана в вашем браузере и никуда не отправлена. Если хотите
+            показать её врачу — сохраните: вы получите короткий код, по которому
+            врач откроет эту анкету у себя. Имя ребёнка при этом не сохраняется.
+          </p>
+
+          <!-- виден только вошедшему родителю, у которого заведены дети -->
+          <div class="field mt-6" id="shareChildField" hidden>
+            <label for="shareChild">Записать в историю ребёнка</label>
+            <select class="input" id="shareChild">
+              <option value="">Без привязки к ребёнку</option>
+            </select>
+          </div>
+
+          <div class="mt-6" id="shareActions">
+            <button class="btn btn-secondary" type="button" id="shareBtn">
+              <i data-icon="upload"></i> Сохранить и получить код
+            </button>
+          </div>
+
+          <div class="share__done" id="shareDone" hidden>
+            <span class="mono">Код оценки</span>
+            <div class="share__code" id="shareCode">—</div>
+            <p class="small text-3">Назовите код врачу — он найдёт по нему вашу анкету.</p>
+
+            <p class="small text-3 mt-4" id="shareCabinet" hidden>
+              Оценка сохранена в ваш <a href="/patient">кабинет пациента</a>.
+            </p>
+            <p class="small text-3 mt-4" id="shareOffer" hidden>
+              Сохраните код: с ним оценку можно добавить в
+              <a href="/patient/login">кабинет пациента</a> и следить за динамикой.
+            </p>
+          </div>
+
+          <p class="auth__error" id="shareError" hidden></p>
+        </div>
+
+        <div class="disclaimer mt-6">
+          <i data-icon="info"></i>
+          <p><strong>Важно:</strong> результат является оценкой факторов риска и не является
+          медицинским диагнозом. Для постановки диагноза необходимо обратиться к врачу.
+          Оценка ИМТ ориентировочная и не заменяет осмотр педиатра.</p>
+        </div>
+
+        <p class="auth__error" id="downloadError" hidden></p>
+
+        <div class="result__actions">
+          <button class="btn btn-primary" type="button" id="printBtn">
+            <i data-icon="printer"></i> Распечатать сводку
+          </button>
+          <button class="btn btn-secondary" type="button" id="downloadBtn">
+            <i data-icon="download"></i> Скачать PDF
+          </button>
+          <button class="btn btn-secondary" type="button" id="restartBtn">
+            <i data-icon="refresh"></i> Пройти заново
+          </button>
+          <a class="btn btn-ghost" href="/">На главную</a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script src="/scripts/i18n.js"></script>
+<script src="/scripts/icons.js"></script>
+<script src="/scripts/main.js"></script>
+<script src="/scripts/dst.js"></script>
+<script src="/scripts/assessment.js"></script>
+</body>
+</html>

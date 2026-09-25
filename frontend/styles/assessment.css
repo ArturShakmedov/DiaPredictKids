@@ -1,0 +1,619 @@
+/* ==========================================================================
+   NDST — страница оценки риска
+   ========================================================================== */
+
+.assess {
+  position: relative;
+  overflow: hidden;            /* декоративное свечение не должно тянуть страницу вширь */
+  padding-block: 40px 96px;
+  min-height: calc(100vh - var(--header-h));
+}
+.assess::before {
+  content: "";
+  position: absolute;
+  top: -120px; left: 50%;
+  transform: translateX(-50%);
+  width: 1000px; height: 620px;
+  background: radial-gradient(ellipse, rgba(25, 211, 230, 0.10) 0%, rgba(25, 211, 230, 0) 65%);
+  pointer-events: none;
+}
+.assess__inner { position: relative; max-width: 860px; margin-inline: auto; }
+
+/* ==========================================================================
+   Прогресс
+   ========================================================================== */
+
+.progress { margin-bottom: 40px; }
+
+.progress__steps {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.pstep { display: grid; gap: 6px; opacity: 0.55; transition: opacity var(--t-base); }
+.pstep.is-active, .pstep.is-done { opacity: 1; }
+
+.pstep__num {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pstep.is-active .pstep__num { color: var(--primary); }
+.pstep.is-done   .pstep__num { color: var(--success); }
+.pstep__num .icon { width: 13px; height: 13px; }
+
+.pstep__title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-2);
+  overflow-wrap: anywhere;   /* «Соединительная ткань» длиннее колонки */
+}
+.pstep.is-active .pstep__title { color: var(--text); }
+
+.progress__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* ==========================================================================
+   Шаги формы
+   ========================================================================== */
+
+.step-panel { display: none; }
+.step-panel.is-current { display: block; animation: step-in 300ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.step-panel__head { margin-bottom: 32px; }
+.step-panel__head h1 { font-size: 32px; letter-spacing: -1px; line-height: 1.2; }
+.step-panel__head p { margin-top: 12px; color: var(--text-2); max-width: 62ch; }
+
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 32px;
+}
+.form-card + .form-card { margin-top: 20px; }
+.form-card__title {
+  font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--text-3); margin-bottom: 20px;
+}
+
+.form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.form-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.span-2 { grid-column: span 2; }
+
+.check-list { display: grid; gap: 12px; }
+
+/* Балл признака по шкале ДСТ — заказчик просил балльную систему в анкете */
+.check__w {
+  margin-left: auto;
+  align-self: center;
+  font-size: 13px; font-weight: 600;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+.form-card__hint { margin: -8px 0 20px; }
+.check-list--2 { grid-template-columns: repeat(2, 1fr); }
+
+/* Живой расчёт ИМТ */
+.bmi-live {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+}
+.bmi-live__v {
+  font-size: 24px; font-weight: 700; letter-spacing: -0.6px;
+  color: var(--primary); font-variant-numeric: tabular-nums; min-width: 60px;
+}
+.bmi-live__t { font-size: 13px; color: var(--text-3); line-height: 1.45; }
+.bmi-live__t b { color: var(--text-2); font-weight: 600; }
+
+/* Навигация по шагам */
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+.step-nav__right { display: flex; gap: 12px; margin-left: auto; }
+
+.form-note {
+  display: flex; gap: 10px; align-items: flex-start;
+  margin-top: 20px; font-size: 13px; color: var(--text-3);
+}
+.form-note .icon { width: 16px; height: 16px; margin-top: 2px; flex: none; }
+
+/* ==========================================================================
+   Экран анализа
+   ========================================================================== */
+
+.analysing {
+  display: none;
+  padding: 80px 0;
+  text-align: center;
+}
+.analysing.is-current { display: block; }
+.analysing__ring { width: 120px; height: 120px; margin: 0 auto 32px; }
+.analysing__ring circle.spin {
+  animation: dash-spin 1.4s linear infinite;
+  transform-origin: center;
+}
+@keyframes dash-spin { to { transform: rotate(360deg); } }
+.analysing h2 { font-size: 24px; }
+.analysing p { margin-top: 12px; color: var(--text-3); }
+
+.analysing__log {
+  max-width: 340px;
+  margin: 32px auto 0;
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+.analysing__log li {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: var(--text-3);
+  opacity: 0.35;
+  transition: opacity var(--t-base), color var(--t-base);
+}
+.analysing__log li.is-done { opacity: 1; color: var(--text-2); }
+.analysing__log li .icon { width: 15px; height: 15px; color: var(--primary); }
+.analysing__log { list-style: none; padding: 0; }
+
+/* ==========================================================================
+   Результат
+   ========================================================================== */
+
+.result { display: none; }
+.result.is-current { display: block; animation: step-in 400ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+
+.result__hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 40px;
+  box-shadow: var(--shadow), var(--glow);
+}
+.result__hero::before {
+  content: "";
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, rgba(25, 211, 230, 0.12) 0%, rgba(25, 211, 230, 0) 65%);
+  pointer-events: none;
+}
+.result__hero.level-high::before  { background: radial-gradient(circle, rgba(239, 68, 68, 0.12) 0%, transparent 65%); }
+.result__hero.level-mod::before   { background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 65%); }
+.result__hero.level-low::before   { background: radial-gradient(circle, rgba(34, 197, 94, 0.12) 0%, transparent 65%); }
+
+.result__head {
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding-bottom: 24px; margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.result__title {
+  font-size: 12px; font-weight: 600; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--text-3);
+}
+
+.result__body {
+  position: relative;
+  display: flex; align-items: center; gap: 48px;
+}
+.gauge { width: 220px; height: 220px; flex: none; }
+.gauge__track { stroke: var(--border); }
+.gauge__value {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.gauge__num {
+  font-family: Inter, sans-serif; font-weight: 700; font-size: 44px;
+  letter-spacing: -2px; fill: var(--text);
+}
+.gauge__cap {
+  font-family: Inter, sans-serif; font-size: 9px; letter-spacing: 1.6px;
+  fill: var(--text-3);
+}
+
+.result__summary { flex: 1; min-width: 0; }
+.result__summary h2 { font-size: 34px; letter-spacing: -1px; margin-top: 16px; }
+.result__summary p { margin-top: 16px; color: var(--text-2); max-width: 46ch; }
+.result__bar { margin-top: 28px; }
+.result__scale {
+  display: flex; justify-content: space-between;
+  margin-top: 10px; font-size: 11px; color: var(--text-3);
+}
+
+/* Разбор факторов */
+.factors { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 24px; }
+
+.factor-box {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 24px;
+}
+.factor-box h3 {
+  font-size: 15px; font-weight: 600; margin-bottom: 4px;
+  display: flex; align-items: center; gap: 10px;
+}
+.factor-box h3 .icon { width: 18px; height: 18px; }
+.factor-box > p { font-size: 13px; color: var(--text-3); margin-bottom: 20px; }
+.factor-box ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+
+.factor-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; }
+.factor-item .icon { width: 16px; height: 16px; margin-top: 3px; flex: none; }
+.factor-item__name { flex: 1; min-width: 0; }
+.factor-item__w {
+  font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
+  color: var(--text-3); padding-left: 8px;
+}
+
+.factor-box--found h3 { color: var(--warning); }
+.factor-box--found .factor-item { color: var(--text); }
+.factor-box--found .factor-item .icon { color: var(--warning); }
+.factor-box--found .factor-item__w { color: var(--warning); }
+
+.factor-box--absent h3 { color: var(--success); }
+.factor-box--absent .factor-item { color: var(--text-3); }
+.factor-box--absent .factor-item .icon { color: var(--success); }
+
+.factor-empty { font-size: 14px; color: var(--text-3); }
+
+/* Профиль ребёнка */
+.profile-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-top: 24px;
+}
+.profile-cell { background: var(--surface-card); padding: 20px; }
+.profile-cell__l {
+  font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-3); margin-bottom: 8px;
+}
+.profile-cell__v {
+  font-size: 20px; font-weight: 600; letter-spacing: -0.4px;
+  font-variant-numeric: tabular-nums;
+}
+.profile-cell__n { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+
+/* Рекомендации */
+.recs { margin-top: 24px; }
+.recs ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: r; }
+.recs li {
+  display: flex; gap: 14px; align-items: flex-start;
+  font-size: 15px; line-height: 1.55; color: var(--text-2);
+}
+.recs li::before {
+  counter-increment: r;
+  content: counter(r);
+  flex: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--primary-soft);
+  border: 1px solid rgba(25, 211, 230, 0.25);
+  color: var(--primary);
+  font-size: 12px; font-weight: 600;
+  margin-top: 1px;
+}
+
+.result__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+
+/* Сохранение результата для врача */
+
+.share__done { margin-top: 20px; }
+.share__done .mono {
+  display: block;
+  font-size: 11px; font-weight: 600; letter-spacing: 1.3px;
+  text-transform: uppercase; color: var(--text-3);
+}
+.share__code {
+  margin: 8px 0 10px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+  word-break: break-all;
+}
+
+/* ==========================================================================
+   Печать
+   ========================================================================== */
+
+@media print {
+  /* Сайт тёмный, бумага белая. Цвета текста в теме светлые — число в кольце
+     залито почти белым --text и на распечатке пропадало, а голубой код оценки
+     и оранжевые веса факторов читались с трудом. Поэтому при печати
+     переопределяем сами токены: перекрашивается всё, что на них опирается,
+     включая заливку текста в SVG, и новые элементы не придётся помнить. */
+  :root {
+    --text:    #111111;
+    --text-2:  #333333;
+    --text-3:  #555555;
+    --border:  #cccccc;
+    --primary: #0e7490;
+    --warning: #b45309;
+    --success: #15803d;
+    --danger:  #b91c1c;
+    --primary-soft: transparent;
+  }
+
+  .header, .mobile-menu, .progress, .result__actions, .footer, .form-note { display: none !important; }
+  body { background: #fff; color: #111; }
+
+  /* цвет уровня риска на кольце и полосе — главный сигнал, его сохраняем */
+  .gauge, .bar__fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* Экран результата появляется с анимацией из нулевой прозрачности. Печать
+     фиксирует текущий кадр: нажми «Распечатать» сразу — и страница вышла бы
+     пустой. На бумаге анимация не нужна, показываем итоговое состояние. */
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .assess::before, .result__hero::before { display: none; }
+  .result__hero, .factor-box, .profile-cell, .card {
+    background: #fff !important; border-color: #ccc !important; box-shadow: none !important;
+  }
+  .result__summary h2, .factor-item, .profile-cell__v, .recs li { color: #111 !important; }
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  .result__body { flex-direction: column; align-items: flex-start; gap: 32px; }
+  .gauge { width: 180px; height: 180px; }
+  .factors { grid-template-columns: 1fr; }
+  .profile-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .assess { padding-block: 24px 64px; }
+  .progress__steps {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 8px;
+  }
+  .form-card { padding: 20px; }
+  .form-grid, .form-grid--3, .check-list--2 { grid-template-columns: 1fr; }
+  .span-2 { grid-column: auto; }
+  .step-panel__head h1 { font-size: 26px; }
+  .result__hero { padding: 24px; }
+  .result__summary h2 { font-size: 26px; }
+  .step-nav { flex-direction: column-reverse; align-items: stretch; }
+  .step-nav__right { margin-left: 0; }
+  .step-nav .btn { width: 100%; }
+}
+
+/* Шкала ДСТ: отдельный от риска диабета результат */
+.dst-box { margin-top: 24px; }
+.dst-box__head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px 20px; flex-wrap: wrap;
+}
+.dst-box__head h3 { display: flex; align-items: center; gap: 10px; font-size: 18px; }
+.dst-box__head h3 .icon { width: 18px; height: 18px; color: var(--primary); }
+.dst-box__head p { margin-top: 6px; font-size: 13px; color: var(--text-3); max-width: 60ch; }
+
+.dst-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  margin-top: 20px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.dst-stat { background: var(--surface-card); padding: 16px; }
+.dst-stat__v {
+  font-size: 26px; font-weight: 700; letter-spacing: -0.6px;
+  font-variant-numeric: tabular-nums;
+}
+.dst-stat__l { margin-top: 4px; font-size: 12px; color: var(--text-3); }
+
+.dst-list {
+  list-style: none; margin: 20px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 28px;
+}
+.dst-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text); }
+.dst-item .icon { width: 16px; height: 16px; margin-top: 3px; flex: none; color: var(--primary); }
+.dst-item__name { flex: 1; min-width: 0; }
+.dst-item__grade { color: var(--text-3); font-size: 12px; }
+.dst-item__w { font-size: 12px; font-weight: 600; color: var(--primary); font-variant-numeric: tabular-nums; }
+.dst-item--anomaly { color: var(--text-2); }
+.dst-item--anomaly .icon { color: var(--warning); }
+
+.dst-note { margin-top: 20px; font-size: 13px; line-height: 1.55; color: var(--text-3); }
+
+@media (max-width: 860px) {
+  .dst-stats { grid-template-columns: repeat(2, 1fr); }
+  .dst-list { grid-template-columns: 1fr; }
+}
+
+/* Справочная строка результата: данные для врача, не влияющие на балл */
+.ref-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-3);
+}
+.ref-line .icon { width: 16px; height: 16px; color: var(--primary); flex: none; }
+.ref-line b { color: var(--text-2); font-weight: 600; }
+
+/* ==========================================================================
+   Печать: сводка как страница документа A4
+
+   Этот блок стоит в самом конце файла намеренно. Лист A4 уже 860px, поэтому
+   на бумаге срабатывали мобильные правила выше: кольцо и текст вставали
+   в столбик, факторы — в одну колонку, карточка ребёнка — по две ячейки,
+   и сводка расползалась на четыре листа. Правила ниже возвращают раскладку
+   как на компьютере, но под размер листа.
+   ========================================================================== */
+
+/* на экране шапка не нужна — у страницы есть своя */
+.print-head { display: none; }
+
+/* Поля задаются самому листу, а не отступами содержимого. Раньше поля были
+   нулевыми, чтобы браузер не печатал колонтитулы, а отступ давал блок
+   .assess — но он есть только в начале документа. Второй лист начинался
+   прямо от края бумаги, куда принтеры вообще не печатают. */
+@page { size: A4 portrait; margin: 11mm 13mm 12mm; }
+
+@media print {
+  body { font-size: 10.5pt; }
+
+  .assess { padding: 0 !important; min-height: 0 !important; overflow: visible !important; }
+  .container { padding-inline: 0 !important; max-width: none !important; }
+  .assess__inner { max-width: none !important; }
+
+  /* ---- шапка документа ---------------------------------------------- */
+  .print-head {
+    display: flex !important;
+    align-items: baseline;
+    gap: 4mm;
+    padding-bottom: 2.5mm;
+    margin-bottom: 4mm;
+    border-bottom: 0.4mm solid #111;
+  }
+  .print-head__brand { font-size: 15pt; font-weight: 800; letter-spacing: 0.5pt; color: #000; }
+  .print-head__title { font-size: 11pt; color: #333; }
+  .print-head__patient { font-size: 11pt; font-weight: 700; color: #000; }
+  .print-head__date  { margin-left: auto; font-size: 10.5pt; color: #333; font-variant-numeric: tabular-nums; }
+
+  /* ---- итог: кольцо рядом с выводом, как на экране компьютера -------- */
+  .result__hero { padding: 5mm 7mm !important; border-radius: 3mm !important; break-inside: avoid; }
+  .result__head { padding-bottom: 2.5mm !important; margin-bottom: 4mm !important; }
+  .result__body { flex-direction: row !important; align-items: center !important; gap: 8mm !important; }
+
+  /* Процент — главное число сводки. Заказчик просил жирнее и чётче:
+     крупный кегль, максимальная насыщенность и чисто чёрный цвет, а кольцо
+     толще, чтобы уровень риска читался даже на бледной печати. */
+  .gauge { width: 48mm !important; height: 48mm !important; }
+  .gauge__track { stroke: #d6d6d6 !important; stroke-width: 18px; }
+  .gauge__value { stroke-width: 18px; }
+  .gauge__num {
+    font-size: 54px !important;
+    font-weight: 800 !important;
+    letter-spacing: -1.5px !important;
+    fill: #000 !important;
+  }
+  .gauge__cap { font-size: 10px !important; font-weight: 700 !important; fill: #222 !important; }
+
+  .result__summary h2 { font-size: 18pt !important; margin-top: 2mm !important; }
+  .result__summary p { font-size: 10.5pt !important; margin-top: 2mm !important; max-width: none !important; }
+  .result__bar { margin-top: 4mm !important; }
+  .result__scale { font-size: 9pt !important; }
+
+  /* ---- неотложная помощь и данные ребёнка ---------------------------- */
+  .profile-row { grid-template-columns: repeat(4, 1fr) !important; margin-top: 4mm !important; break-inside: avoid; }
+  .profile-cell { padding: 2.5mm 4mm !important; }
+  .profile-cell__l { margin-bottom: 1mm !important; font-size: 8pt !important; }
+  .profile-cell__v { font-size: 14pt !important; font-weight: 700 !important; }
+
+  /* ---- факторы: полный перечень повлиявших — главное для врача -------
+     Даём ему всю ширину листа и две колонки: 20 пунктов столбиком по одному
+     и занимали лишний лист. «Не обнаружено» короче и идёт следом. */
+  .factors { grid-template-columns: 1fr !important; gap: 3.5mm !important; margin-top: 4mm !important; }
+  /* Блок факторов переносится на следующий лист целиком: иначе заголовок
+     «Не обнаружено» оставался внизу одного листа, а пункты уезжали на другой. */
+  .factor-box { padding: 3.5mm 5mm !important; break-inside: avoid; }
+  .factor-box h3, .recs h3 { break-after: avoid; }
+  p, li { orphans: 3; widows: 3; }
+  .factor-box h3 { font-size: 11.5pt !important; }
+  .factor-box > p { margin-bottom: 2.5mm !important; font-size: 9pt !important; }
+  .factor-box ul { display: block !important; columns: 2; column-gap: 9mm; }
+  .factor-box li { break-inside: avoid; margin-bottom: 1.6mm; }
+  .factor-item { font-size: 9.5pt !important; }
+  .factor-item__w { font-size: 9.5pt !important; font-weight: 700 !important; }
+
+  .ref-line { margin-top: 3mm !important; font-size: 9.5pt !important; }
+
+  /* ---- что делать дальше --------------------------------------------- */
+  .recs { margin-top: 4mm !important; padding: 3.5mm 5mm !important; break-inside: avoid; }
+  .recs ol { gap: 1.8mm !important; margin-top: 2.5mm !important; }
+  .recs li { font-size: 10pt !important; line-height: 1.45 !important; }
+  .recs li::before {
+    width: 5mm !important; height: 5mm !important; font-size: 8pt !important;
+    border-color: #888 !important; color: #111 !important;
+  }
+
+  /* ---- код оценки ------------------------------------------------------
+     Из блока «Показать результат врачу» на бумаге нужен только сам код:
+     кнопки и пояснения к ним там бессмысленны. Если анкету не сохраняли,
+     кода нет — и блок не печатается вовсе. */
+  .share, #downloadError { display: none !important; }
+  .share:has(#shareDone:not([hidden])) {
+    display: block !important;
+    margin-top: 4mm !important;
+    padding: 3mm 5mm !important;
+    break-inside: avoid;
+  }
+  .share > h3, .share > p, #shareChildField, #shareActions, #shareError,
+  #shareCabinet, #shareOffer { display: none !important; }
+  .share__done { margin-top: 0 !important; display: flex !important; align-items: baseline; gap: 4mm; flex-wrap: wrap; }
+  .share__code { margin: 0 !important; font-size: 16pt !important; color: #000 !important; }
+
+  /* У дисклеймера и дорожки полосы риска свой тёмный фон темы. Токены
+     текста его не касаются, и на бумаге выходила тёмно-синяя плашка
+     с тёмным же текстом — прочитать было нельзя. */
+  .disclaimer {
+    margin-top: 4mm !important;
+    padding: 2.5mm 4mm !important;
+    font-size: 8.5pt !important;
+    background: #fff !important;
+    border: 0.3mm solid #ccc !important;
+    color: #333 !important;
+    break-inside: avoid;
+  }
+  .bar { background: #e2e2e2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* «Отмечено признаков» не помещалось в ячейку и растягивало весь ряд */
+  .profile-cell__l { letter-spacing: 0.3pt !important; white-space: nowrap; }
+
+  /* ---- шкала ДСТ: одним блоком, показатели в ряд, признаки в две колонки */
+  .dst-box { margin-top: 4mm !important; padding: 3.5mm 5mm !important; break-inside: avoid; }
+  .dst-box__head h3 { font-size: 11.5pt !important; }
+  .dst-box__head p { margin-top: 1mm !important; font-size: 8.5pt !important; max-width: none !important; }
+  /* Разделители — рамками ячеек: зазор с фоном на бумаге терял линии */
+  .dst-stats {
+    grid-template-columns: repeat(4, 1fr) !important; gap: 0 !important;
+    margin-top: 2.5mm !important; background: #fff !important; border: 0.3mm solid #ccc !important;
+  }
+  .dst-stat { background: #fff !important; padding: 2mm 3.5mm !important; }
+  .dst-stat + .dst-stat { border-left: 0.3mm solid #ccc; }
+  .dst-stat__v { font-size: 13pt !important; color: #000 !important; }
+  .dst-stat__l { margin-top: 0.5mm !important; font-size: 8pt !important; }
+  .dst-list { display: block !important; columns: 2; column-gap: 9mm; margin-top: 2.5mm !important; }
+  .dst-item { break-inside: avoid; margin-bottom: 1.4mm; font-size: 9.5pt !important; color: #111 !important; }
+  .dst-note { margin-top: 2mm !important; font-size: 8.5pt !important; }
+}

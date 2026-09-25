@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вход для врача — NDST</title>
+<meta name="description" content="Вход в кабинет врача NDST.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/styles/base.css">
+<link rel="stylesheet" href="/styles/auth.css">
+</head>
+<body data-auth-url="/api/auth/login" data-auth-home="/doctor">
+
+<main class="auth">
+  <div class="auth__glow" aria-hidden="true"></div>
+
+  <div class="auth__card">
+    <a class="logo auth__logo" href="/" aria-label="NDST — на главную">
+      <span class="logo__word" translate="no">NDST<span class="logo__dot">.</span></span>
+    </a>
+
+    <h1 class="auth__title">Вход в кабинет врача</h1>
+    <p class="auth__lead">Доступ к оценкам пациентов. Родителям сюда не нужно —
+       анкета открыта без регистрации, а история ребёнка живёт в кабинете пациента.</p>
+
+    <form id="loginForm" class="auth__form" novalidate>
+      <div class="field">
+        <label for="email">Рабочая почта</label>
+        <input class="input" type="email" id="email" name="email"
+               autocomplete="username" placeholder="doctor@clinic.uz" required>
+      </div>
+
+      <div class="field">
+        <label for="password">Пароль</label>
+        <input class="input" type="password" id="password" name="password"
+               autocomplete="current-password" placeholder="Не менее 8 символов" required>
+      </div>
+
+      <p class="auth__error" id="loginError" hidden></p>
+
+      <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginBtn">
+        Войти <i data-icon="arrow-right"></i>
+      </button>
+    </form>
+
+    <div class="auth__demo" id="demoHint" hidden>
+      <i data-icon="info"></i>
+      <span>Демонстрационный доступ: <b>demo@ndst.app</b> / <b>demo12345</b>.
+            Смените пароль перед публикацией.</span>
+    </div>
+
+    <p class="auth__alt">Нет доступа?
+      <a href="/register">Зарегистрироваться по коду клиники</a></p>
+
+    <p class="auth__alt">Вы родитель?
+      <a href="/patient/login">Кабинет пациента</a></p>
+
+    <a class="auth__back" href="/"><i data-icon="arrow-left"></i> На главную</a>
+  </div>
+</main>
+
+<script src="/scripts/i18n.js"></script>
+<script src="/scripts/icons.js"></script>
+<script src="/scripts/auth.js"></script>
+</body>
+</html>

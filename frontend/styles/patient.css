@@ -1,0 +1,339 @@
+/* ==========================================================================
+   NDST — кабинет пациента
+
+   Дополняет cabinet.css тем, чего нет у врача: выбор ребёнка в верхней
+   полосе, шкала последней оценки, карточки детей и блок рекомендаций.
+   ========================================================================== */
+
+/* ==========================================================================
+   Выбор ребёнка в верхней полосе
+   ========================================================================== */
+
+.child-pick {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.child-pick .icon {
+  position: absolute;
+  left: 14px;
+  width: 18px; height: 18px;
+  color: var(--text-3);
+  pointer-events: none;
+}
+.child-pick select {
+  appearance: none;
+  min-width: 0;
+  height: 40px;
+  padding: 0 34px 0 42px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.child-pick select:hover { border-color: var(--border-hover); }
+.child-pick select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+/* стрелка рисуется фоном, чтобы не тащить ещё один элемент в разметку */
+.child-pick::after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  width: 8px; height: 8px;
+  border-right: 1.6px solid var(--text-3);
+  border-bottom: 1.6px solid var(--text-3);
+  transform: translateY(-2px) rotate(45deg);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Плитки: цвет значения по уровню риска
+   ========================================================================== */
+
+.tile__value.is-high { color: var(--danger); }
+.tile__value.is-mod  { color: var(--warning); }
+.tile__value.is-low  { color: var(--success); }
+
+/* ==========================================================================
+   Шкала последней оценки
+   ========================================================================== */
+
+.gauge { text-align: center; }
+
+.gauge__value {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -1.6px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.gauge__level { margin-top: 8px; font-size: 13px; color: var(--text-2); }
+
+.gauge__bar {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  height: 8px;
+  margin-top: 22px;
+  border-radius: 999px;
+  overflow: visible;
+}
+.gauge__zone { border-radius: 999px; opacity: 0.35; }
+
+/* Метка балла: обводка цветом фона отделяет её от полосы под ней */
+.gauge__pin {
+  position: absolute;
+  top: 50%;
+  width: 14px; height: 14px;
+  margin-left: -7px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--text);
+  box-shadow: 0 0 0 3px var(--surface);
+}
+
+.gauge__scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Легенда графика: нужна только когда линий больше одной */
+.trend-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 12px;
+}
+.trend-legend:empty { display: none; }
+.trend-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+.trend-legend__item i {
+  width: 12px; height: 2px;
+  border-radius: 2px;
+  flex: none;
+}
+
+/* ==========================================================================
+   Факторы последней оценки
+   ========================================================================== */
+
+.factors { margin-top: 28px; display: grid; gap: 1px; }
+
+.factors__title {
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.factors__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.factors__row:last-child { border-bottom: 0; }
+.factors__label { color: var(--text-2); }
+.factors__group {
+  flex: none;
+  font-size: 11px;
+  color: var(--text-3);
+  text-transform: lowercase;
+}
+
+/* Справочные данные анкеты: собраны, но в балл не входят */
+.factors__ref {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* ==========================================================================
+   Ближайший шаг
+   ========================================================================== */
+
+.next-step { display: flex; gap: 16px; align-items: stretch; }
+.next-step__mark { width: 3px; border-radius: 3px; flex: none; }
+.next-step h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.2px; }
+.next-step p { margin-top: 8px; color: var(--text-2); font-size: 14px; max-width: 72ch; }
+
+/* ==========================================================================
+   Формы: привязка кода и профиль ребёнка
+   ========================================================================== */
+
+.link-form,
+.child-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: end;
+}
+.child-form { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 0.8fr); }
+.child-form__actions { grid-column: 1 / -1; display: flex; gap: 10px; }
+
+.link-ok {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--success);
+  font-size: 14px;
+}
+.link-ok .icon { width: 18px; height: 18px; }
+
+/* ==========================================================================
+   Карточки детей
+   ========================================================================== */
+
+.kid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.kid {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 20px;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.kid__top { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.kid__av {
+  width: 42px; height: 42px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(25, 211, 230, 0.12);
+  border: 1px solid rgba(25, 211, 230, 0.3);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+.kid__id { min-width: 0; }
+.kid__name {
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kid__meta { margin-top: 3px; font-size: 12px; color: var(--text-3); }
+
+.kid__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.kid__stats > div {
+  background: var(--bg-2);
+  padding: 12px 14px;
+  display: grid;
+  gap: 4px;
+}
+.kid__num {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  font-variant-numeric: tabular-nums;
+}
+.kid__cap { font-size: 11px; color: var(--text-3); }
+
+.kid__actions { display: flex; gap: 8px; }
+
+/* ==========================================================================
+   Рекомендации
+   ========================================================================== */
+
+.panel--urgent { border-color: rgba(239, 68, 68, 0.3); }
+
+.urgent { display: flex; gap: 16px; align-items: flex-start; }
+.urgent .icon { width: 22px; height: 22px; color: var(--danger); flex: none; margin-top: 2px; }
+.urgent h2 { font-size: 16px; font-weight: 600; }
+.urgent p { margin-top: 8px; color: var(--text-2); font-size: 14px; max-width: 78ch; }
+
+.rec__head { display: flex; align-items: center; gap: 14px; }
+.rec__score {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  font-variant-numeric: tabular-nums;
+}
+.rec__title { margin-top: 16px; font-size: 20px; letter-spacing: -0.4px; }
+.rec__body { margin-top: 10px; color: var(--text-2); font-size: 15px; max-width: 78ch; }
+
+/* Браузерные отступы у ul сдвигали бы текст правее заголовка панели */
+.rec__list { display: grid; gap: 1px; list-style: none; margin: 0; padding: 0; }
+.rec__list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-2);
+}
+.rec__list li:last-child { border-bottom: 0; }
+.rec__list--tips li { display: block; max-width: 78ch; }
+
+.rec__factor { color: var(--text); }
+.rec__group { flex: none; font-size: 11px; color: var(--text-3); text-transform: lowercase; }
+
+.rec__repeat { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-2); }
+.rec__repeat .icon { width: 18px; height: 18px; color: var(--primary); flex: none; }
+
+/* Разделы рекомендаций идут подряд — тот же вертикальный ритм, что у .view */
+#recBody { display: grid; gap: 24px; }
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .link-form,
+  .child-form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .link-form button { grid-column: 1 / -1; justify-self: start; }
+}
+
+@media (max-width: 900px) {
+  /* В узкой полосе выбор ребёнка остаётся, а кнопка анкеты уходит в панель */
+  .topbar__actions .btn-primary { display: none; }
+  .child-pick { flex: 1; }
+  .child-pick select { width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .link-form,
+  .child-form { grid-template-columns: minmax(0, 1fr); }
+  .gauge__value { font-size: 40px; }
+  .rec__list li { flex-direction: column; gap: 4px; }
+  .rec__group { align-self: flex-start; }
+}
